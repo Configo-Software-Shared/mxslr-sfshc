@@ -1,0 +1,182 @@
+<html lang="en" style="padding: 20px">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="shortcut icon" type="image/png" href="images/favicon.png" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.3/semantic.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/v/se/jszip-3.10.1/dt-2.0.7/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/cr-2.0.2/date-1.5.2/fc-5.0.0/fh-4.0.1/kt-2.12.0/r-3.0.2/rg-1.5.0/sc-2.4.2/sb-1.7.1/sp-2.3.1/datatables.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.3/semantic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/v/se/jszip-3.10.1/dt-2.0.7/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/cr-2.0.2/date-1.5.2/fc-5.0.0/fh-4.0.1/kt-2.12.0/r-3.0.2/rg-1.5.0/sc-2.4.2/sb-1.7.1/sp-2.3.1/datatables.min.js"></script>
+    <script type="text/javascript" src="script/cfg-tables.js"></script>
+    <script type="text/javascript" src="31.FlowBestPractices.js"></script>
+    <title>Flows – Best Practices</title>
+  </head>
+  <body>
+    <h2 class="ui header">Flows – Best Practices</h2>
+    <table id="best-practices" class="ui responsive celled table">
+      <thead>
+        <tr class="header">
+          <th>Flow</th>
+          <th>Violated Rule</th>
+          <th>Details</th>
+          <th>Severity</th>
+        </tr>
+      </thead>
+    </table>
+    <script>
+      function renderFlowCount(
+        detailTableId,
+        typeIndex,
+        statusIndex,
+        statusValue
+      ) {
+        return function (data, type, row, meta) {
+          if (type !== "display" || !row || !row.type || data === 0)
+            return data;
+
+          const name = row.type;
+          const safeName = String(name).replace(/"/g, "&quot;");
+          const secondFilter =
+            (
+              typeof statusIndex === "number" &&
+              typeof statusValue === "string" &&
+              statusValue.length > 0
+            ) ?
+              `setColumnFilter('${detailTableId}', ${statusIndex}, '${statusValue}');`
+            : "";
+          return `<a href="#" onclick="
+        clearAllFilters('${detailTableId}');
+        setColumnFilter('${detailTableId}', ${typeIndex}, '/^${safeName}$');
+        ${secondFilter}
+        scrollTableIntoView('${detailTableId}');
+        return false;
+      ">${data}</a>`;
+        };
+      }
+
+      function renderLabelAndFullName(data, type, row, meta) {
+        if (type !== "display")
+          return data?.label + " (" + data?.fullName + ")";
+
+        const fullName = data.fullName;
+        const label = data.label;
+        // Escape for HTML
+        const safeFullName = String(fullName).replace(/"/g, "&quot;");
+        const safeLabel = String(label).replace(/"/g, "&quot;");
+        return `<div>${safeLabel}</div><div class="ui gray label">${safeFullName}</div>`;
+      }
+
+      function renderDetails(data, type, row, meta) {
+        if (data === null || data === undefined) {
+          return "";
+        }
+        if (typeof data === "object" && data !== null) {
+          if (type === "display") {
+            let msg = "";
+            if ("message" in data) {
+              msg +=
+                "<div>" +
+                data.message.replace(/\$\{(\w+)\}/g, (m, p1) =>
+                  data[p1] !== undefined ?
+                    `<div class="ui blue horizontal label">${data[p1]}</div>`
+                  : m
+                ) +
+                "</div>";
+            }
+            if ("elements" in data) {
+              msg += `<div style="margin-top:0.5em;display:flex;flex-wrap:wrap;gap:0.5em;">${data.elements.map((e) => renderElement(e, type, "teal")).join("")}</div>`;
+            }
+            if ("element" in data) {
+              msg += `<div style="margin-top:0.5em;display:flex;flex-wrap:wrap;gap:0.5em;">${renderElement(data.element, type, "teal")}`;
+              if ("related" in data) {
+                msg += `<span>: </span>${data.related.map((e) => renderElement(e, type, "yellow")).join("")}`;
+              }
+              msg += "</div>";
+            }
+            return msg;
+          } else {
+            let msg = "";
+            if ("message" in data) {
+              msg += data.message.replace(/\$\{(\w+)\}/g, (m, p1) =>
+                data[p1] !== undefined ? data[p1] : m
+              );
+            }
+            if ("elements" in data) {
+              msg += `${msg ? "; " : ""}elements=(${data.elements.map((e) => renderElement(e, type)).join(", ")})`;
+            }
+            if ("element" in data) {
+              msg += `${msg ? "; " : ""}${renderElement(data.element, type, "teal")}`;
+              if ("related" in data) {
+                msg += `: ${data.related.map((e) => renderElement(e, type, "yellow")).join(", ")}`;
+              }
+            }
+            return msg;
+          }
+        }
+        return data;
+      }
+
+      function renderElement(data, type, colour) {
+        if (data === null || data === undefined) {
+          return "";
+        }
+        if (type === "display") {
+          return `<div class="ui ${colour} horizontal label">${data.name}<div class="detail">${data.type}</div></div>`;
+        } else {
+          return `<div>${data.name}[${data.type}]</div>`;
+        }
+      }
+
+      function renderSeverityLabel(data, type, row, meta) {
+        if (!data) {
+          return null;
+        }
+
+        if (type !== "display") {
+          return data;
+        }
+
+        const color =
+          data === "error" ? "red"
+          : data === "warning" ? "yellow"
+          : "teal";
+        return `<div class="ui ${color} label">${data}</div>`;
+      }
+
+      $(document).ready(function () {
+        initDataTableWithButtons(
+          "#best-practices",
+          "Flow Best Practices",
+          true,
+          true,
+          {
+            data: flowBestPracticeData,
+            columns: [
+              { data: "flow", title: "Flow", render: renderLabelAndFullName },
+              { data: "rule", title: "Violated Rule" },
+              { data: "details", title: "Details", render: renderDetails },
+              {
+                data: "severity",
+                title: "Severity",
+                render: renderSeverityLabel,
+              },
+            ],
+            pageLength: 20,
+            lengthMenu: [20, 40, 70, 100],
+          }
+        );
+      });
+    </script>
+  </body>
+</html>

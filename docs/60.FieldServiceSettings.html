@@ -1,0 +1,173 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="shortcut icon" type="image/png" href="images/favicon.png" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.3/semantic.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/se/jszip-3.10.1/dt-2.0.7/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/cr-2.0.2/date-1.5.2/fc-5.0.0/fh-4.0.1/kt-2.12.0/r-3.0.2/rg-1.5.0/sc-2.4.2/sb-1.7.1/sp-2.3.1/datatables.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js">//</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.3/semantic.min.js">//</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js">//</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js">//</script>
+    <script src="https://cdn.datatables.net/v/se/jszip-3.10.1/dt-2.0.7/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/cr-2.0.2/date-1.5.2/fc-5.0.0/fh-4.0.1/kt-2.12.0/r-3.0.2/rg-1.5.0/sc-2.4.2/sb-1.7.1/sp-2.3.1/datatables.min.js">//</script>
+    <script type="text/javascript" src="script/cfg-tables.js">//</script>
+    <title>Field Service Settings</title>
+  </head>
+  <body style="padding:16px">
+    <h1 class="ui header">Field Service Settings</h1>
+    <table id="fsSettingsTable" class="ui celled table">
+      <thead>
+        <tr class="header">
+          <th>Category</th>
+          <th>Feature</th>
+          <th>Summary</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Appointment Booking</td>
+          <td>Default scheduling policy</td>
+          <td>Closest Tech</td>
+        </tr>
+        <tr>
+          <td>Appointment Booking</td>
+          <td>Default operating hours</td>
+          <td>Eastern Standard</td>
+        </tr>
+        <tr>
+          <td>Appointment Booking</td>
+          <td>Ideal grading threshold</td>
+          <td>90</td>
+        </tr>
+        <tr>
+          <td>Appointment Booking</td>
+          <td>Recommended grading threshold</td>
+          <td>70</td>
+        </tr>
+        <tr>
+          <td>Appointment Booking</td>
+          <td>Minimum Grade</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>Appointment Booking</td>
+          <td>Number of hours for initial appointment search</td>
+          <td>168</td>
+        </tr>
+        <tr>
+          <td>Appointment Booking</td>
+          <td>Show grades explanation</td>
+          <td>true</td>
+        </tr>
+        <tr>
+          <td>Appointment Booking</td>
+          <td>Label</td>
+          <td>false</td>
+        </tr>
+        <tr>
+          <td>Appointment Booking</td>
+          <td>Label</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Appointment Booking</td>
+          <td>Label</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Apex Limits</td>
+          <td>ABCandidatesCpuLimit</td>
+          <td>80</td>
+        </tr>
+        <tr>
+          <td>Apex Limits</td>
+          <td>ABIntervalsCpuLimit</td>
+          <td>15</td>
+        </tr>
+        <tr>
+          <td>Apex Limits</td>
+          <td>ABTotalCpuLimit</td>
+          <td>95</td>
+        </tr>
+        <tr>
+          <td>Apex Limits</td>
+          <td>AdvancedMatrixPartialCpuLimit</td>
+          <td>35</td>
+        </tr>
+        <tr>
+          <td>Apex Limits</td>
+          <td>GetCandidatesTotalCpuLimit</td>
+          <td>95</td>
+        </tr>
+        <tr>
+          <td>Apex Limits</td>
+          <td>IsCandidatePartialCpuLimit</td>
+          <td>15</td>
+        </tr>
+        <tr>
+          <td>Apex Limits</td>
+          <td>RawMatrixPartialCpuLimit</td>
+          <td>35</td>
+        </tr>
+        <tr>
+          <td>Apex Limits</td>
+          <td>ScheduleTotalCpuLimit</td>
+          <td>90</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1 class="ui header">Scheduling Recipes</h1>
+    <h2 class="ui header">Emergency Overlap</h2>
+    <div class="ui items">
+      <div class="item">
+        <div class="content">
+          <div class="header">(Example) Emergency Appointment</div>
+          <div class="description">Emergency dispatch causes a schedule overlap of 10+ minutes.</div>
+        </div>
+      </div>
+    </div>
+    <h2 class="ui header">Late-End Overlap</h2>
+    <div class="ui items">
+      <div class="item">
+        <div class="content">
+          <div class="header">(Example) Appointment Ends Late</div>
+          <div class="description">Appointment ends late and causes a schedule overlap of 10+ minutes.</div>
+        </div>
+      </div>
+    </div>
+    <h2 class="ui header">Canceled Appointment</h2>
+    <div class="ui items">
+      <div class="item">
+        <div class="content">
+          <div class="header">(Example) Customer Cancels</div>
+          <div class="description">Appointment is cancelled by the customer.</div>
+        </div>
+      </div>
+    </div>
+    <h2 class="ui header">Shortened Appointment</h2>
+    <div class="ui items">
+      <div class="item">
+        <div class="content">
+          <div class="header">(Example) Appointment Ends Early</div>
+          <div class="description">Appointment ends 10+ minutes early.</div>
+        </div>
+      </div>
+    </div>
+    <script>
+      $( document ).ready( function ()
+      {
+        initDataTableWithButtons(
+          '#fsSettingsTable',
+          'Field Service Settings',
+          true,
+          false,
+          {
+            columnDefs: [ { targets: [ 0 ], visible: false } ],
+            rowGroup: { dataSrc: 0 },
+            pageLength: 200
+          }
+        );
+      } );
+</script>
+  </body>
+</html>

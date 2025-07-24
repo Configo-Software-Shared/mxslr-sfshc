@@ -1,0 +1,334 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="shortcut icon" type="image/png" href="images/favicon.png" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.3/semantic.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/se/jq-3.7.0/jszip-3.10.1/dt-2.0.7/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/cr-2.0.2/date-1.5.2/fc-5.0.0/fh-4.0.1/kt-2.12.0/r-3.0.2/rg-1.5.0/sc-2.4.2/sb-1.7.1/sp-2.3.1/datatables.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js">//</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.3/semantic.min.js">//</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js">//</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js">//</script>
+    <script src="https://cdn.datatables.net/v/se/jq-3.7.0/jszip-3.10.1/dt-2.0.7/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/cr-2.0.2/date-1.5.2/fc-5.0.0/fh-4.0.1/kt-2.12.0/r-3.0.2/rg-1.5.0/sc-2.4.2/sb-1.7.1/sp-2.3.1/datatables.min.js">//</script>
+    <script type="text/javascript" src="script/cfg-tables.js">//</script>
+    <script type="text/javascript" src="xomIndex.js">//</script>
+    <title>Snapshot Summary</title>
+  </head>
+  <body style="padding:16px">
+    <h2>Types</h2>
+    <table id="typesTable" class="ui celled table" style="width:100%">
+      <thead>
+        <tr class="header">
+          <th>Type</th>
+          <th>Items</th>
+          <th>References</th>
+          <th>Unresolved</th>
+        </tr>
+      </thead>
+      <tbody />
+    </table>
+    <h2>Collections</h2>
+    <table id="collectionsTable" class="ui celled table" style="width:100%">
+      <thead>
+        <tr class="header">
+          <th>Type</th>
+          <th>Items</th>
+          <th>References</th>
+          <th>Unresolved</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>SObjects (metadata)</td>
+          <td>1203</td>
+          <td>69348</td>
+          <td>13731</td>
+        </tr>
+        <tr>
+          <td>ApptBundleAggrPolicy</td>
+          <td>5</td>
+          <td>15</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>ApptBundleConfig</td>
+          <td>1</td>
+          <td>16</td>
+          <td>3</td>
+        </tr>
+        <tr>
+          <td>ApptBundlePolicy</td>
+          <td>1</td>
+          <td>3</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>ApptBundleRestrictPolicy</td>
+          <td>1</td>
+          <td>3</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>ApptBundleSortPolicy</td>
+          <td>1</td>
+          <td>3</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>fsl.ApexLimits</td>
+          <td>8</td>
+          <td>8</td>
+          <td>16</td>
+        </tr>
+        <tr>
+          <td>fsl.AppointmentBookingSettings</td>
+          <td>1</td>
+          <td>4</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>fsl.AuthorizationInfo</td>
+          <td>1</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>fsl.AutomatorConfig</td>
+          <td>5</td>
+          <td>13</td>
+          <td>9</td>
+        </tr>
+        <tr>
+          <td>fsl.Dictionaries</td>
+          <td>7</td>
+          <td>21</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>fsl.DripFeedConfig</td>
+          <td>1</td>
+          <td>2</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>fsl.DynamicGanttSettings</td>
+          <td>4</td>
+          <td>18</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>fsl.EmergencySettings</td>
+          <td>1</td>
+          <td>3</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>fsl.Fields</td>
+          <td>15</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>fsl.GeneralConfig</td>
+          <td>155</td>
+          <td>245</td>
+          <td>149</td>
+        </tr>
+        <tr>
+          <td>fsl.GeocodeSettings</td>
+          <td>1</td>
+          <td>1</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>fsl.LogicSettings</td>
+          <td>1</td>
+          <td>9</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>fsl.ObjectMapping</td>
+          <td>3</td>
+          <td>35</td>
+          <td>3</td>
+        </tr>
+        <tr>
+          <td>fsl.OptimizationSettings</td>
+          <td>7</td>
+          <td>65</td>
+          <td>15</td>
+        </tr>
+        <tr>
+          <td>fsl.Parameter</td>
+          <td>3</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>fsl.ServiceLegalStatuses</td>
+          <td>63</td>
+          <td>315</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>fsl.ServiceOnCreationValidations</td>
+          <td>1</td>
+          <td>1</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>fsl.SoFieldsMapping</td>
+          <td>20</td>
+          <td>60</td>
+          <td>20</td>
+        </tr>
+        <tr>
+          <td>fsl.Synchronize</td>
+          <td>2</td>
+          <td>6</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>fsl.TriggerConfigurations</td>
+          <td>27</td>
+          <td>46</td>
+          <td>32</td>
+        </tr>
+        <tr>
+          <td>FSL__Criteria__c</td>
+          <td>4</td>
+          <td>8</td>
+          <td>12</td>
+        </tr>
+        <tr>
+          <td>FSL__GanttPalette__c</td>
+          <td>3</td>
+          <td>9</td>
+          <td>3</td>
+        </tr>
+        <tr>
+          <td>FSL__Scheduling_Policy__c</td>
+          <td>5</td>
+          <td>3</td>
+          <td>12</td>
+        </tr>
+        <tr>
+          <td>FSL__Scheduling_Policy_Goal__c</td>
+          <td>13</td>
+          <td>30</td>
+          <td>22</td>
+        </tr>
+        <tr>
+          <td>FSL__Scheduling_Policy_Work_Rule__c</td>
+          <td>41</td>
+          <td>88</td>
+          <td>76</td>
+        </tr>
+        <tr>
+          <td>FSL__SchedulingRecipe__c</td>
+          <td>4</td>
+          <td>8</td>
+          <td>12</td>
+        </tr>
+        <tr>
+          <td>FSL__Service_Goal__c</td>
+          <td>6</td>
+          <td>6</td>
+          <td>18</td>
+        </tr>
+        <tr>
+          <td>FSL__Work_Rule__c</td>
+          <td>14</td>
+          <td>16</td>
+          <td>40</td>
+        </tr>
+        <tr>
+          <td>md.Flow</td>
+          <td>183</td>
+          <td>178</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>md.FlowDefinition</td>
+          <td>181</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>mt.MetadataType</td>
+          <td>256</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>ServiceAppointmentStatus</td>
+          <td>12</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>ServiceReportLayout</td>
+          <td>9</td>
+          <td>18</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>ServiceResource</td>
+          <td>83</td>
+          <td>83</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>ServiceTerritory</td>
+          <td>22</td>
+          <td>127</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>ServiceTerritoryMember</td>
+          <td>122</td>
+          <td>244</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>User</td>
+          <td>127</td>
+          <td>599</td>
+          <td>16</td>
+        </tr>
+      </tbody>
+    </table>
+    <script>
+      var types = Object.values( xomIndex.items )
+        .reduce( function ( typeSummary, item ) {
+          item.identities.forEach( function( id ) {
+            var typeInfo = ( typeSummary[ id.type ] = typeSummary[ id.type ] || { count: 0, dependencies: 0, unresolved: 0 } );
+            typeInfo.count ++;
+            typeInfo.dependencies += ( item.dependencies?.length || 0 );
+            typeInfo.unresolved += ( item.unresolvedReferences?.length || 0 );
+          } );
+          return typeSummary;
+        }, {} );
+
+      var itemsData = Object.keys( types )
+        .map( function ( typeName ) {
+          var typeInfo = types[ typeName ];
+          return [
+            typeName,
+            typeInfo.count,
+            typeInfo.dependencies,
+            typeInfo.unresolved
+          ];
+        } );
+
+      $( document ).ready( function ()
+      {
+        $( '#typesTable' ).DataTable( {
+          data: itemsData
+        } );
+
+        $( '#collectionsTable' ).DataTable();
+      } );
+</script>
+  </body>
+</html>
