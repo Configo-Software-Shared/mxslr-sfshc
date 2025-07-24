@@ -1,16 +1,25 @@
-<html lang="en" style="padding: 20px" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<html lang="en" style="padding: 20px">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="shortcut icon" type="image/png" href="images/favicon.png" />
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.3/semantic.min.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/se/jszip-3.10.1/dt-2.0.7/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/cr-2.0.2/date-1.5.2/fc-5.0.0/fh-4.0.1/kt-2.12.0/r-3.0.2/rg-1.5.0/sc-2.4.2/sb-1.7.1/sp-2.3.1/datatables.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js">//</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.3/semantic.min.js">//</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js">//</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js">//</script>
-    <script src="https://cdn.datatables.net/v/se/jszip-3.10.1/dt-2.0.7/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/cr-2.0.2/date-1.5.2/fc-5.0.0/fh-4.0.1/kt-2.12.0/r-3.0.2/rg-1.5.0/sc-2.4.2/sb-1.7.1/sp-2.3.1/datatables.min.js">//</script>
-    <script type="text/javascript" src="script/cfg-tables.js">//</script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.3/semantic.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/v/se/jszip-3.10.1/dt-2.0.7/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/cr-2.0.2/date-1.5.2/fc-5.0.0/fh-4.0.1/kt-2.12.0/r-3.0.2/rg-1.5.0/sc-2.4.2/sb-1.7.1/sp-2.3.1/datatables.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.3/semantic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/v/se/jszip-3.10.1/dt-2.0.7/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/cr-2.0.2/date-1.5.2/fc-5.0.0/fh-4.0.1/kt-2.12.0/r-3.0.2/rg-1.5.0/sc-2.4.2/sb-1.7.1/sp-2.3.1/datatables.min.js"></script>
+    <script type="text/javascript" src="script/cfg-tables.js"></script>
+    <script type="text/javascript" src="30.Flows.js"></script>
     <title>Flows</title>
   </head>
   <body>
@@ -38,295 +47,110 @@
       </thead>
     </table>
     <script>
-  const summaryData = [
-{ "type": "AutoLaunchedFlow", "total": 141, "active": 115 },
-{ "type": "Flow", "total": 21, "active": 15 },
-{ "type": "Workflow", "total": 5, "active": 5 },
-{ "type": "FieldServiceMobile", "total": 14, "active": 12 },
-{ "type": "Survey", "total": 2, "active": 2 }
-];
+      function renderFlowCount(
+        detailTableId,
+        typeIndex,
+        statusIndex,
+        statusValue
+      ) {
+        return function (data, type, row, meta) {
+          if (type !== "display" || !row || !row.type || data === 0)
+            return data;
 
-  const flowData = [
-{ "name": { "fullName": "ActualEnd_Complete", "label": "ActualEnd_Complete" }, "description": "Migrated from the: ActualEnd_Complete workflow rule\nWorkflow rule description: Change SA to Complete when end time entered\"", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordBeforeSave", "object": "ServiceAppointment" }, "components": { "processMetadataValues": 1, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "ActualStart_InProgress", "label": "ActualStart_InProgress" }, "description": "Migrated from the: ActualStart_InProgress workflow rule\nWorkflow rule description: Change SA to in progress when start time entered\"", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordBeforeSave", "object": "ServiceAppointment" }, "components": { "processMetadataValues": 1, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Add_Contacts_to_Prospect_Company", "label": "Add Contacts to Prospect\/Company" }, "description": "", "type": "Flow", "status": "Active", "trigger": null, "components": { "assignments": 4, "choices": 2, "customProperties": 1, "decisions": 1, "loops": 2, "processMetadataValues": 3, "recordLookups": 2, "recordUpdates": 2, "screens": 3, "start": 1, "variables": 2 } },
-{ "name": { "fullName": "Asset_Insert", "label": "Asset Insert" }, "description": "", "type": "Workflow", "status": "Active", "trigger": null, "components": { "actionCalls": 1, "decisions": 1, "formulas": 1, "processMetadataValues": 4, "variables": 2 } },
-{ "name": { "fullName": "Asset_Insert_Update", "label": "Asset Insert Update v2" }, "description": "", "type": "Workflow", "status": "Active", "trigger": null, "components": { "actionCalls": 1, "decisions": 1, "processMetadataValues": 4, "variables": 2 } },
-{ "name": { "fullName": "Asset_Last_PM_Field_Update", "label": "Asset: Last PM Field Update" }, "description": "12am Daily updates the asset with the last completed PM date on asset", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "Scheduled", "object": "Asset" }, "components": { "assignments": 2, "decisions": 1, "formulas": 2, "loops": 2, "processMetadataValues": 3, "recordLookups": 2, "recordUpdates": 1, "start": 1, "variables": 2 } },
-{ "name": { "fullName": "Assign_Cases_in_Work_Orders", "label": "Assign Cases in Work Orders" }, "description": "", "type": "Flow", "status": "Active", "trigger": null, "components": { "assignments": 1, "loops": 1, "processMetadataValues": 3, "recordLookups": 1, "recordUpdates": 1, "screens": 1, "start": 1, "variables": 2 } },
-{ "name": { "fullName": "Assigned_Resource_Update_After_Save", "label": "Assigned Resource Update - After Save" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "AssignedResource" }, "components": { "assignments": 1, "processMetadataValues": 3, "recordLookups": 1, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Batch_Add_work_plans_to_existing_WOLIs", "label": "Batch: Add work plans to existing WOLIs" }, "description": "", "type": "AutoLaunchedFlow", "status": "Obsolete", "trigger": { "type": "Scheduled", "object": "WorkOrderLineItem" }, "components": { "actionCalls": 1, "assignments": 3, "decisions": 1, "loops": 1, "processMetadataValues": 3, "recordLookups": 1, "recordUpdates": 1, "start": 1, "variables": 12 } },
-{ "name": { "fullName": "Bundle_Cases", "label": "Bundle Cases" }, "description": "", "type": "Flow", "status": "Active", "trigger": null, "components": { "assignments": 2, "dynamicChoiceSets": 2, "loops": 1, "processMetadataValues": 3, "recordCreates": 1, "recordLookups": 1, "recordUpdates": 3, "screens": 2, "start": 1, "textTemplates": 1, "variables": 3 } },
-{ "name": { "fullName": "Burden_rate_gathering_from_Product_to_QOLI", "label": "Burden rate gathering from Product to QOLI" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "QuoteLineItem" }, "components": { "decisions": 2, "formulas": 8, "processMetadataValues": 3, "recordUpdates": 6, "start": 1 } },
-{ "name": { "fullName": "Case_Estimate_information_Update", "label": "Case Estimate information Update" }, "description": "Updates Parent records with all related case information", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Case" }, "components": { "assignments": 3, "decisions": 1, "formulas": 1, "loops": 1, "processMetadataValues": 3, "recordLookups": 1, "recordUpdates": 2, "start": 1, "textTemplates": 1, "variables": 5 } },
-{ "name": { "fullName": "Case_POM_Review_Notification_Slack", "label": "Case POM Review Notification Slack" }, "description": "", "type": "AutoLaunchedFlow", "status": "InvalidDraft", "trigger": { "type": "RecordAfterSave", "object": "Case" }, "components": { "actionCalls": 3, "decisions": 1, "processMetadataValues": 3, "start": 1, "textTemplates": 1 } },
-{ "name": { "fullName": "Case_Summary_WOLI_to_Case_Update", "label": "Case Summary WOLI to Case Update" }, "description": "WOLI to Case status automation, based off the Case Summary WOLI - Issue Status selection by field tech", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrderLineItem" }, "components": { "decisions": 1, "processMetadataValues": 3, "recordUpdates": 3, "start": 1 } },
-{ "name": { "fullName": "Quote_Trigger_CASE", "label": "Case to Quote Status Change" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Case" }, "components": { "decisions": 2, "processMetadataValues": 3, "recordLookups": 1, "recordUpdates": 7, "start": 1 } },
-{ "name": { "fullName": "Case_Update_Create_WOLIs_Based_on_Work_Type_of_Case", "label": "Case Update - Create WOLIs Based on Work Type of Case" }, "description": "When a work order is attached to a case, create WOLIs on this work order to capture the details of the work to be performed.", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Case" }, "components": { "formulas": 1, "processMetadataValues": 3, "start": 1, "subflows": 1, "variables": 1 } },
-{ "name": { "fullName": "Case_Update_Create_WOLIs_Based_on_Work_Type_of_Case_SS_Edits", "label": "Case Update - Create WOLIs Based on Work Type of Case SS Edits" }, "description": "", "type": "AutoLaunchedFlow", "status": "Obsolete", "trigger": { "type": "RecordAfterSave", "object": "Case" }, "components": { "formulas": 1, "processMetadataValues": 3, "start": 1, "subflows": 1, "variables": 1 } },
-{ "name": { "fullName": "Case_Estimating", "label": "Case_Estimating" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Case" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Case_In_Progress", "label": "Case_In_Progress" }, "description": "Migrated from the: Case_In_Progress workflow rule\nWorkflow rule description: \"", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Case" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Case_Known_Issue", "label": "Case_Known_Issue" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Case" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Case_Monitoring_Confirmation", "label": "Case_Monitoring_Confirmation" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Case" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Case_POM_Review", "label": "Case_POM_Review" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Case" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Case_RMA", "label": "Case_RMA" }, "description": "Update DateTime Stamp when Case is moved to RMA inprogress", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Case" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Clock_In", "label": "Clock-In" }, "description": "", "type": "FieldServiceMobile", "status": "Active", "trigger": null, "components": { "decisions": 1, "processMetadataValues": 3, "recordLookups": 2, "recordUpdates": 3, "start": 1, "variables": 3 } },
-{ "name": { "fullName": "Clock_Out", "label": "Clock-Out" }, "description": "", "type": "FieldServiceMobile", "status": "Active", "trigger": null, "components": { "processMetadataValues": 3, "recordUpdates": 1, "start": 1, "variables": 1 } },
-{ "name": { "fullName": "Consumption_of_Products_Consumed", "label": "Consumption of Products Consumed" }, "description": "Replacement of the APEX coding to pull products based off of completed SAs", "type": "AutoLaunchedFlow", "status": "Draft", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "decisions": 12, "formulas": 5, "loops": 2, "processMetadataValues": 3, "recordCreates": 14, "recordLookups": 13, "start": 1 } },
-{ "name": { "fullName": "Consumption_of_Products_Consumed-17", "label": "Consumption of Products Consumed" }, "description": "Replacement of the APEX coding to pull products based off of completed SAs", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "decisions": 10, "formulas": 2, "loops": 2, "processMetadataValues": 3, "recordCreates": 10, "recordLookups": 11, "start": 1 } },
-{ "name": { "fullName": "Contractual_Billing_Consumption", "label": "Contractual Billing Consumption" }, "description": "", "type": "AutoLaunchedFlow", "status": "Obsolete", "trigger": { "type": "Scheduled", "object": "WorkOrder" }, "components": { "decisions": 1, "processMetadataValues": 3, "recordCreates": 1, "recordLookups": 1, "start": 1 } },
-{ "name": { "fullName": "Contractual_Billing_Consumption_SS", "label": "Contractual Billing Consumption SS" }, "description": "SS copied version", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "Scheduled", "object": "WorkOrder" }, "components": { "decisions": 1, "processMetadataValues": 3, "recordCreates": 1, "recordLookups": 1, "start": 1 } },
-{ "name": { "fullName": "Contractual_Opp_Update", "label": "Contractual Opp Update" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Opportunity" }, "components": { "processMetadataValues": 3, "recordLookups": 3, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Contractual_Order_Update", "label": "Contractual Order Update" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Order" }, "components": { "processMetadataValues": 3, "recordLookups": 1, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Create_Address_from_Loc", "label": "Create Address from Loc" }, "description": "", "type": "Flow", "status": "Active", "trigger": null, "components": { "processMetadataValues": 3, "recordCreates": 1, "recordUpdates": 1, "screens": 1, "start": 1, "variables": 1 } },
-{ "name": { "fullName": "Create_Asset_from_Project", "label": "Create Asset from Project" }, "description": "Allows user to create an asset from a project", "type": "Flow", "status": "Obsolete", "trigger": null, "components": { "decisions": 1, "dynamicChoiceSets": 4, "processMetadataValues": 3, "recordCreates": 3, "recordLookups": 2, "recordUpdates": 2, "screens": 3, "start": 1, "variables": 2 } },
-{ "name": { "fullName": "Create_WO_from_Case_Current", "label": "Create WO from Case (Current)" }, "description": "", "type": "Flow", "status": "Obsolete", "trigger": null, "components": { "decisions": 3, "dynamicChoiceSets": 2, "formulas": 3, "processMetadataValues": 3, "recordCreates": 2, "recordLookups": 6, "recordUpdates": 4, "screens": 2, "start": 1, "variables": 1 } },
-{ "name": { "fullName": "Create_WO_from_Case_New_Version", "label": "Create WO from Case (New Version)" }, "description": "Updated to include Related Cases", "type": "Flow", "status": "Active", "trigger": null, "components": { "decisions": 5, "dynamicChoiceSets": 2, "formulas": 3, "loops": 2, "processMetadataValues": 3, "recordCreates": 2, "recordLookups": 9, "recordUpdates": 6, "screens": 2, "start": 1, "variables": 1 } },
-{ "name": { "fullName": "Create_Work_Order_From_Case", "label": "Create Work Order From Case" }, "description": "", "type": "Flow", "status": "Obsolete", "trigger": null, "components": { "dynamicChoiceSets": 1, "processMetadataValues": 3, "recordCreates": 1, "recordLookups": 1, "recordUpdates": 2, "screens": 1, "start": 1, "variables": 1 } },
-{ "name": { "fullName": "Create_Work_Order_From_RMA", "label": "Create Work Order From RMA" }, "description": "", "type": "Flow", "status": "Active", "trigger": null, "components": { "decisions": 1, "dynamicChoiceSets": 2, "processMetadataValues": 3, "recordCreates": 1, "recordLookups": 2, "recordUpdates": 2, "screens": 2, "start": 1, "variables": 1 } },
-{ "name": { "fullName": "customer_satisfaction", "label": "Customer Satisfaction" }, "description": "", "type": "Survey", "status": "Active", "trigger": null, "components": { "choices": 5, "processMetadataValues": 4, "screens": 1, "textTemplates": 2, "variables": 6 } },
-{ "name": { "fullName": "Debug_Flow_Error_Handling", "label": "Debug Flow Error Handling" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": null, "components": { "actionCalls": 2, "processMetadataValues": 2, "recordLookups": 1, "textTemplates": 2, "variables": 7 } },
-{ "name": { "fullName": "Screen_Flow_All_Day_Appointment", "label": "Easy Appointment Schedule" }, "description": "", "type": "Flow", "status": "Active", "trigger": null, "components": { "assignments": 2, "choices": 4, "decisions": 1, "formulas": 3, "processMetadataValues": 3, "recordCreates": 1, "recordUpdates": 1, "screens": 1, "start": 1, "variables": 3 } },
-{ "name": { "fullName": "End_Travel_Time", "label": "End Travel Time" }, "description": "", "type": "FieldServiceMobile", "status": "Active", "trigger": null, "components": { "processMetadataValues": 3, "recordUpdates": 1, "start": 1, "variables": 1 } },
-{ "name": { "fullName": "Estimate_Request_Form", "label": "Estimate Request Form" }, "description": "Requesting an estimate to estimator and team to collaborate", "type": "Flow", "status": "Obsolete", "trigger": null, "components": { "actionCalls": 6, "assignments": 5, "choices": 2, "decisions": 2, "dynamicChoiceSets": 4, "loops": 1, "processMetadataValues": 3, "recordLookups": 3, "screens": 4, "start": 1, "textTemplates": 10, "variables": 6 } },
-{ "name": { "fullName": "Estimate_Approved", "label": "Estimate_Approved" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Quote" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Estimate_Awaiting_Pricing", "label": "Estimate_Awaiting_Pricing" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Quote" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Estimate_Expired", "label": "Estimate_Expired" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Quote" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Estimate_Internal_Approval", "label": "Estimate_Internal_Approval" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Quote" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Estimate_Rejected", "label": "Estimate_Rejected" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Quote" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Estimate_Revisions", "label": "Estimate_Revisions" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Quote" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Estimate_Sent_To_Customer", "label": "Estimate_Sent_To_Customer" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Quote" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Fill_Account_From_Asset", "label": "Fill Account From Asset" }, "description": "", "type": "Workflow", "status": "Active", "trigger": null, "components": { "decisions": 1, "processMetadataValues": 4, "recordUpdates": 1, "variables": 2 } },
-{ "name": { "fullName": "Fill_Account_From_Asset_1", "label": "Fill Account From Asset_1" }, "description": "Migrated from the Fill Account From Asset process using Check Asset and Account criteria.", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Case" }, "components": { "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "FSL__Fix_Schedule_Overlaps", "label": "Fix Schedule Overlaps" }, "description": "Fixes the schedule when a service appointment ends later than expected.", "type": "AutoLaunchedFlow", "status": "Draft", "trigger": null, "components": { "actionCalls": 2, "decisions": 3, "processMetadataValues": 3, "recordLookups": 1, "start": 1, "variables": 13 } },
-{ "name": { "fullName": "Generate_Price_Books", "label": "Generate Price Books" }, "description": "", "type": "Flow", "status": "Active", "trigger": null, "components": { "assignments": 7, "decisions": 3, "formulas": 9, "loops": 2, "processMetadataValues": 3, "recordCreates": 2, "recordLookups": 3, "screens": 3, "start": 1, "variables": 5 } },
-{ "name": { "fullName": "Generate_Quote", "label": "Generate Quote" }, "description": "Generates an opportunity and a quote from a work order", "type": "Flow", "status": "Active", "trigger": null, "components": { "assignments": 2, "dynamicChoiceSets": 1, "formulas": 4, "processMetadataValues": 3, "recordCreates": 2, "recordLookups": 3, "recordUpdates": 1, "screens": 1, "start": 1, "variables": 3 } },
-{ "name": { "fullName": "Generate_Quote_CASE", "label": "Generate Quote - CASE" }, "description": "", "type": "Flow", "status": "Active", "trigger": null, "components": { "assignments": 2, "dynamicChoiceSets": 1, "formulas": 4, "loops": 1, "processMetadataValues": 3, "recordCreates": 2, "recordLookups": 4, "recordUpdates": 2, "screens": 1, "start": 1, "variables": 3 } },
-{ "name": { "fullName": "Inclement_Weather_Reschedule_Status", "label": "Inclement Weather Reschedule Status" }, "description": "Sets WO status to Reschedule when SA is set to Inclement Weather", "type": "AutoLaunchedFlow", "status": "Obsolete", "trigger": { "type": "RecordAfterSave", "object": "ServiceAppointment" }, "components": { "processMetadataValues": 3, "recordLookups": 1, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "JHA_Work_Step_Template", "label": "JHA Work Step Template" }, "description": "", "type": "FieldServiceMobile", "status": "Active", "trigger": null, "components": { "choices": 18, "decisions": 5, "dynamicChoiceSets": 21, "processMetadataValues": 3, "recordCreates": 1, "recordLookups": 6, "recordUpdates": 4, "screens": 8, "start": 1, "variables": 47 } },
-{ "name": { "fullName": "Loc_Update_Asset_V4", "label": "Loc Update Asset V4" }, "description": "Updates all child work-orders with address\/location. Simplified loop. ANTHONY COPY", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Asset" }, "components": { "assignments": 1, "decisions": 2, "loops": 1, "processMetadataValues": 3, "recordLookups": 1, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Mass_Create_SAs", "label": "Mass Create SAs" }, "description": "Ability to create multiple SAs from the Work order and assign them to a technician.", "type": "Flow", "status": "Active", "trigger": null, "components": { "assignments": 4, "choices": 6, "decisions": 2, "dynamicChoiceSets": 1, "formulas": 4, "loops": 1, "processMetadataValues": 3, "recordCreates": 2, "recordLookups": 2, "screens": 1, "start": 1, "variables": 5 } },
-{ "name": { "fullName": "net_promoter_score", "label": "Net Promoter Score" }, "description": "", "type": "Survey", "status": "Active", "trigger": null, "components": { "processMetadataValues": 4, "screens": 1, "textTemplates": 2, "variables": 6 } },
-{ "name": { "fullName": "New_BD_Opp_Probability_Change", "label": "New BD Opp Probability Change" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Opportunity" }, "components": { "decisions": 1, "processMetadataValues": 3, "recordUpdates": 2, "start": 1 } },
-{ "name": { "fullName": "New_Business_Project_Count_Update", "label": "New Business Project Count Update" }, "description": "Updates the Opp with total project count and awarded project count", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Opportunity" }, "components": { "assignments": 1, "processMetadataValues": 3, "recordLookups": 2, "recordUpdates": 1, "start": 1, "variables": 2 } },
-{ "name": { "fullName": "New_Issue_Found_Screen", "label": "New Issue Found Screen" }, "description": "", "type": "FieldServiceMobile", "status": "Active", "trigger": null, "components": { "assignments": 6, "choices": 18, "decisions": 19, "dynamicChoiceSets": 1, "formulas": 8, "processMetadataValues": 3, "recordCreates": 8, "recordLookups": 10, "recordUpdates": 29, "screens": 6, "start": 1, "textTemplates": 1, "variables": 20 } },
-{ "name": { "fullName": "New_PM_Work_Plan", "label": "New PM Work Plan" }, "description": "Newly created flow to create correct WOLIs, Work Plans, Work Steps for PM visit WO.", "type": "FieldServiceMobile", "status": "Active", "trigger": null, "components": { "choices": 3, "decisions": 13, "dynamicChoiceSets": 7, "processMetadataValues": 3, "recordLookups": 4, "recordUpdates": 30, "screens": 11, "start": 1, "variables": 30 } },
-{ "name": { "fullName": "NewBusinessOpp_ClosedLost", "label": "NewBusinessOpp_ClosedLost" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Opportunity" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "NewBusinessOpp_ClosedWon", "label": "NewBusinessOpp_ClosedWon" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Opportunity" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "NewBusinessOpp_ContractSubmitted", "label": "NewBusinessOpp_ContractSubmitted" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Opportunity" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "NewBusinessOpp_NeedsPricing", "label": "NewBusinessOpp_NeedsPricing" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Opportunity" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "NewBusinessOpp_ProposalInProgress", "label": "NewBusinessOpp_ProposalInProgress" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Opportunity" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "NewBusinessOpp_ProposalSubmitted", "label": "NewBusinessOpp_ProposalSubmitted" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Opportunity" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "NewBusinessOpp_Qualification", "label": "NewBusinessOpp_Qualification" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Opportunity" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Opportunity_Auto_Create_Renewal_Opps", "label": "Opportunity - Auto Create Renewal Opps" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Opportunity" }, "components": { "assignments": 11, "decisions": 4, "formulas": 7, "loops": 3, "processMetadataValues": 3, "recordCreates": 2, "recordLookups": 3, "start": 1, "variables": 9 } },
-{ "name": { "fullName": "Order_Creation_automation", "label": "Order Creation: automation" }, "description": "Automation on creation of contractual orders and orderlineitems", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Opportunity" }, "components": { "decisions": 1, "loops": 1, "processMetadataValues": 3, "recordCreates": 5, "recordLookups": 3, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Parts_Request_Cost_Trigger", "label": "Parts Request Cost Trigger" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ProductRequestLineItem" }, "components": { "decisions": 1, "formulas": 3, "processMetadataValues": 3, "recordLookups": 1, "recordUpdates": 3, "start": 1 } },
-{ "name": { "fullName": "Parts_Request_Form", "label": "Parts Request Form" }, "description": "", "type": "Flow", "status": "Active", "trigger": null, "components": { "actionCalls": 4, "assignments": 3, "choices": 3, "decisions": 5, "dynamicChoiceSets": 2, "formulas": 2, "loops": 1, "processMetadataValues": 3, "recordCreates": 10, "recordLookups": 12, "screens": 4, "start": 1, "textTemplates": 6, "variables": 3 } },
-{ "name": { "fullName": "PC_Description", "label": "PC Description" }, "description": "Updates the Line Item Description from description", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ProductConsumed" }, "components": { "decisions": 1, "processMetadataValues": 3, "recordUpdates": 2, "start": 1 } },
-{ "name": { "fullName": "PC_Record_update_for_QB_Item_sync", "label": "PC Record update for QB Item sync" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ProductConsumed" }, "components": { "decisions": 6, "formulas": 1, "processMetadataValues": 3, "recordLookups": 2, "recordUpdates": 22, "start": 1 } },
-{ "name": { "fullName": "PM_WOLI_Update", "label": "PM WOLI Update" }, "description": "", "type": "AutoLaunchedFlow", "status": "Obsolete", "trigger": { "type": "RecordAfterSave", "object": "WorkOrderLineItem" }, "components": { "assignments": 2, "decisions": 2, "processMetadataValues": 3, "recordCreates": 1, "recordUpdates": 4, "start": 1, "variables": 3 } },
-{ "name": { "fullName": "PM_Work_Plan_for_WOLI_Mobile_Flow", "label": "PM Work Plan for WOLI Mobile Flow" }, "description": "Work Plan for Preventative Maintenance", "type": "FieldServiceMobile", "status": "Obsolete", "trigger": null, "components": { "actionCalls": 1, "choices": 6, "decisions": 3, "processMetadataValues": 3, "recordLookups": 4, "recordUpdates": 3, "screens": 2, "start": 1, "variables": 29 } },
-{ "name": { "fullName": "PO_Request_Submission", "label": "PO Request Submission" }, "description": "PO Request", "type": "Flow", "status": "Active", "trigger": null, "components": { "actionCalls": 2, "choices": 2, "decisions": 1, "dynamicChoiceSets": 2, "formulas": 6, "processMetadataValues": 3, "recordCreates": 5, "recordLookups": 7, "screens": 1, "start": 1, "textTemplates": 2, "variables": 1 } },
-{ "name": { "fullName": "PO_Request_Submission_from_PRLI", "label": "PO Request Submission from PRLI" }, "description": "PO Request from Product Requests\/Procurement", "type": "Flow", "status": "Active", "trigger": null, "components": { "actionCalls": 2, "choices": 2, "dynamicChoiceSets": 2, "formulas": 1, "processMetadataValues": 3, "recordCreates": 1, "recordLookups": 4, "recordUpdates": 1, "screens": 1, "start": 1, "textTemplates": 2, "variables": 1 } },
-{ "name": { "fullName": "PR_Line_Items_to_PCs_on_WO", "label": "PR Line Items to PCs on WO" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ProductRequestLineItem" }, "components": { "decisions": 2, "processMetadataValues": 3, "recordCreates": 2, "recordLookups": 3, "recordUpdates": 2, "start": 1 } },
-{ "name": { "fullName": "Prevailing_Wage_Notification", "label": "Prevailing Wage Notification" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "actionCalls": 1, "decisions": 1, "formulas": 1, "processMetadataValues": 3, "recordLookups": 2, "start": 1, "textTemplates": 1 } },
-{ "name": { "fullName": "Prevailing_Wage_Testing", "label": "Prevailing Wage Testing" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "actionCalls": 1, "decisions": 1, "formulas": 1, "processMetadataValues": 3, "recordLookups": 2, "start": 1, "textTemplates": 1 } },
-{ "name": { "fullName": "ProductRequest_Backordered_Date", "label": "ProductRequest_Backordered_Date" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ProductRequestLineItem" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "ProductRequest_Canceled_Date", "label": "ProductRequest_Canceled_Date" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ProductRequestLineItem" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "ProductRequest_Delivered_Date", "label": "ProductRequest_Delivered_Date" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ProductRequestLineItem" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "ProductRequest_In_Stock_Date", "label": "ProductRequest_In-Stock_Date" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ProductRequestLineItem" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "ProductRequest_Ordered_Date", "label": "ProductRequest_Ordered_Date" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ProductRequestLineItem" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Products_Consumed_Description_Update", "label": "Products Consumed Description Update" }, "description": "Updates Line Item description text with the description of PCs", "type": "AutoLaunchedFlow", "status": "Draft", "trigger": { "type": "RecordAfterSave", "object": "ProductConsumed" }, "components": { "formulas": 1, "loops": 1, "processMetadataValues": 3, "recordLookups": 1, "recordUpdates": 2, "start": 1 } },
-{ "name": { "fullName": "WC_QAQC_Work_Step_Template", "label": "QAQC Work Step Template" }, "description": "Displays a screen based on the WOLI record type, for the SFS mobile app \/ work plans interface. for QAQC Only", "type": "FieldServiceMobile", "status": "Active", "trigger": null, "components": { "choices": 5, "decisions": 26, "dynamicChoiceSets": 15, "processMetadataValues": 3, "recordLookups": 4, "recordUpdates": 66, "screens": 23, "start": 1, "variables": 43 } },
-{ "name": { "fullName": "Quote_Update_Expiration_Date", "label": "Quote - Update Expiration Date" }, "description": "", "type": "AutoLaunchedFlow", "status": "Obsolete", "trigger": { "type": "RecordAfterSave", "object": "Quote" }, "components": { "formulas": 1, "processMetadataValues": 3, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Quote_Expiration_Notification", "label": "Quote Expiration Notification" }, "description": "", "type": "AutoLaunchedFlow", "status": "Obsolete", "trigger": { "type": "Scheduled", "object": "Quote" }, "components": { "actionCalls": 1, "decisions": 1, "formulas": 3, "processMetadataValues": 3, "recordLookups": 1, "recordUpdates": 1, "start": 1, "textTemplates": 1 } },
-{ "name": { "fullName": "Quote_is_generated", "label": "Quote is generated" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ServiceReport" }, "components": { "processMetadataValues": 3, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Quote_status_change_notification", "label": "Quote status change notification" }, "description": "", "type": "AutoLaunchedFlow", "status": "Obsolete", "trigger": { "type": "RecordAfterSave", "object": "Quote" }, "components": { "actionCalls": 1, "decisions": 1, "formulas": 1, "processMetadataValues": 3, "recordLookups": 1, "start": 1, "textTemplates": 1 } },
-{ "name": { "fullName": "Quote_Trigger", "label": "Quote Trigger" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Quote" }, "components": { "decisions": 1, "processMetadataValues": 3, "recordLookups": 2, "recordUpdates": 9, "start": 1, "variables": 2 } },
-{ "name": { "fullName": "Rename_Address_Location", "label": "Rename_Address_Location" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Address" }, "components": { "assignments": 1, "processMetadataValues": 3, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Return_Order_Creation", "label": "Return Order Creation" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Case" }, "components": { "processMetadataValues": 3, "recordCreates": 1, "recordUpdates": 1, "start": 1, "variables": 1 } },
-{ "name": { "fullName": "RMA_Manufacturer_List", "label": "RMA Manufacturer List" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ReturnOrder" }, "components": { "formulas": 1, "processMetadataValues": 3, "recordLookups": 1, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "RMA_Notifications", "label": "RMA Notifications" }, "description": "RMA process, flow related directly to notifications which include: task creation and email notification.", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ReturnOrder" }, "components": { "actionCalls": 1, "decisions": 1, "processMetadataValues": 3, "recordCreates": 1, "recordLookups": 2, "start": 1, "textTemplates": 2, "variables": 1 } },
-{ "name": { "fullName": "RMA_Received_Email_Alert_Rule", "label": "RMA Received Email Alert Rule" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ReturnOrder" }, "components": { "actionCalls": 1, "processMetadataValues": 3, "start": 1 } },
-{ "name": { "fullName": "RMA_Trigger", "label": "RMA Trigger" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ReturnOrder" }, "components": { "decisions": 1, "formulas": 2, "processMetadataValues": 3, "recordLookups": 2, "recordUpdates": 4, "start": 1 } },
-{ "name": { "fullName": "RMA_Canceled_Stamp", "label": "RMA_Canceled_Stamp" }, "description": "Date\/Time Stamp when RMA is set to Canceled", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ReturnOrder" }, "components": { "formulas": 1, "processMetadataValues": 3, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "RMA_Closed_Stamp", "label": "RMA_Closed_Stamp" }, "description": "Date\/Time Stamp when RMA is set to Closed", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ReturnOrder" }, "components": { "formulas": 1, "processMetadataValues": 3, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "RMA_Defective_Stamp", "label": "RMA_Defective_Stamp" }, "description": "Date\/Time Stamp when RMA is set to Defective", "type": "AutoLaunchedFlow", "status": "Draft", "trigger": { "type": "RecordAfterSave", "object": "ReturnOrder" }, "components": { "formulas": 1, "processMetadataValues": 3, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "RMA_Installed_Stamp", "label": "RMA_Installed_Stamp" }, "description": "Date\/Time Stamp when RMA is set to Installed", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ReturnOrder" }, "components": { "formulas": 1, "processMetadataValues": 3, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "RMA_Received_Stamp", "label": "RMA_Received_Stamp" }, "description": "Date\/Time Stamp when RMA is set to Received", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ReturnOrder" }, "components": { "formulas": 1, "processMetadataValues": 3, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "RMA_Returned_Stamp", "label": "RMA_Returned_Stamp" }, "description": "Date\/Time Stamp when RMA is set to Returned", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ReturnOrder" }, "components": { "formulas": 1, "processMetadataValues": 3, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "RMA_Shipped_Stamp", "label": "RMA_Shipped_Stamp" }, "description": "Date\/Time Stamp when RMA is set to Shipped", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ReturnOrder" }, "components": { "formulas": 1, "processMetadataValues": 3, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "RMA_Submitted_Stamp", "label": "RMA_Submitted_Stamp" }, "description": "Date\/Time Stamp when RMA is set to Submitted", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ReturnOrder" }, "components": { "formulas": 1, "processMetadataValues": 3, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "SA_Creation_Update_From_WO", "label": "SA Creation - Update From WO V4" }, "description": "This one bring in asset to SA, and name gantt label accordingly", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ServiceAppointment" }, "components": { "assignments": 1, "processMetadataValues": 3, "recordLookups": 1, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "SA_Canceled", "label": "SA_Canceled" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ServiceAppointment" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "SA_CNC_Reschedule", "label": "SA_CNC_Reschedule" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ServiceAppointment" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "SA_Dispatched", "label": "SA_Dispatched" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ServiceAppointment" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "SA_Inclement_Weather", "label": "SA_Inclement_Weather" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ServiceAppointment" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Sample_Flow_to_Debug", "label": "Sample Flow to Debug" }, "description": "This Flow demonstrates how to connect a flow to the Error Handling Subflow with assignment Elements.", "type": "AutoLaunchedFlow", "status": "Active", "trigger": null, "components": { "assignments": 2, "formulas": 2, "processMetadataValues": 2, "recordCreates": 2, "subflows": 1, "textTemplates": 1, "variables": 5 } },
-{ "name": { "fullName": "FSL__Send_Email_For_Automated_Bundling_Failures", "label": "Send Email For Automated Bundling Failures" }, "description": "Sends an email to the Field Service admin to notify them about failed Automated Bundling optimization requests.", "type": "AutoLaunchedFlow", "status": "Draft", "trigger": { "type": "Scheduled", "object": "" }, "components": { "actionCalls": 2, "assignments": 1, "decisions": 1, "formulas": 1, "processMetadataValues": 3, "recordLookups": 1, "start": 1, "textTemplates": 2, "variables": 3 } },
-{ "name": { "fullName": "Send_Slack_Message_Test", "label": "Send Slack Message Test" }, "description": "", "type": "Flow", "status": "Obsolete", "trigger": null, "components": { "actionCalls": 2, "processMetadataValues": 3, "screens": 2, "start": 1 } },
-{ "name": { "fullName": "Service_Report_Name_Change", "label": "Service Report Name Change" }, "description": "Flow that will change the names of service reports created from work order\/work order line items based on service report template.", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ServiceReport" }, "components": { "decisions": 1, "formulas": 6, "processMetadataValues": 3, "recordLookups": 5, "recordUpdates": 8, "start": 1 } },
-{ "name": { "fullName": "Set_Start_and_End_on_WO", "label": "Set Start and End on WO" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ServiceAppointment" }, "components": { "assignments": 3, "decisions": 1, "processMetadataValues": 3, "recordLookups": 1, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Sharinpix_Token_Generation_on_WO", "label": "Sharinpix Token Generation on WO" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "actionCalls": 1, "processMetadataValues": 3, "start": 1 } },
-{ "name": { "fullName": "Sharinpix_Update_WO", "label": "Sharinpix Update WO" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordBeforeSave", "object": "sharinpix__SharinPixImage__c" }, "components": { "processMetadataValues": 3, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Site_Request_Form", "label": "Site Request Form V2" }, "description": "Edited to include asset type", "type": "Flow", "status": "Active", "trigger": null, "components": { "decisions": 1, "dynamicChoiceSets": 4, "processMetadataValues": 3, "recordCreates": 3, "recordLookups": 1, "recordUpdates": 1, "screens": 3, "start": 1, "variables": 2 } },
-{ "name": { "fullName": "Slack_Confirmation_Message", "label": "Slack Confirmation Message" }, "description": "Send a message to Slack", "type": "Flow", "status": "Obsolete", "trigger": null, "components": { "actionCalls": 1, "assignments": 1, "processMetadataValues": 3, "recordLookups": 2, "start": 1, "textTemplates": 1, "variables": 2 } },
-{ "name": { "fullName": "Start_Travel_Time", "label": "Start Travel Time" }, "description": "", "type": "FieldServiceMobile", "status": "Active", "trigger": null, "components": { "processMetadataValues": 3, "recordUpdates": 1, "start": 1, "variables": 1 } },
-{ "name": { "fullName": "Subflow_Add_checklist_WOLIs_Original", "label": "Subflow - Add checklist WOLIs Original" }, "description": "Existing Add Checklist WOLIs", "type": "AutoLaunchedFlow", "status": "Obsolete", "trigger": null, "components": { "actionCalls": 1, "assignments": 8, "collectionProcessors": 2, "decisions": 2, "loops": 5, "processMetadataValues": 3, "recordCreates": 1, "recordLookups": 4, "recordUpdates": 1, "start": 1, "variables": 12 } },
-{ "name": { "fullName": "Subflow_Add_checklist_WOLIs_w_PM_Current", "label": "Subflow - Add checklist WOLIs w\/ PM (Current)" }, "description": "Create Work plan\/steps for each WOLI necessary based off the WOLIs created from previous subflow", "type": "AutoLaunchedFlow", "status": "Active", "trigger": null, "components": { "actionCalls": 8, "assignments": 29, "collectionProcessors": 2, "decisions": 4, "loops": 19, "processMetadataValues": 3, "recordCreates": 1, "recordLookups": 11, "recordUpdates": 8, "start": 1, "variables": 12 } },
-{ "name": { "fullName": "Subflow_Add_checklist_WOLIs", "label": "Subflow - Add checklist WOLIs w\/ PM Update" }, "description": "Called from the case edit flow, this adds checklist WOLIs to the WO\nincludes updates on PM work orders", "type": "AutoLaunchedFlow", "status": "Obsolete", "trigger": null, "components": { "actionCalls": 2, "assignments": 11, "collectionProcessors": 2, "decisions": 3, "loops": 7, "processMetadataValues": 3, "recordCreates": 1, "recordLookups": 5, "recordUpdates": 2, "start": 1, "variables": 12 } },
-{ "name": { "fullName": "Subflow_Generate_WOLIs_on_New_Work_Order", "label": "Subflow - Generate WOLIs on New Work Order" }, "description": "", "type": "AutoLaunchedFlow", "status": "Obsolete", "trigger": null, "components": { "actionCalls": 1, "assignments": 2, "decisions": 7, "formulas": 3, "loops": 1, "processMetadataValues": 3, "recordCreates": 4, "recordLookups": 11, "recordUpdates": 1, "start": 1, "subflows": 2, "variables": 6 } },
-{ "name": { "fullName": "Subflow_Generate_WOLIs_on_New_Work_Order_Current", "label": "Subflow - Generate WOLIs on New Work Order (Current)" }, "description": "Generates WOLIs when Work Order based off of work type", "type": "AutoLaunchedFlow", "status": "Active", "trigger": null, "components": { "actionCalls": 1, "assignments": 1, "decisions": 6, "formulas": 5, "loops": 1, "processMetadataValues": 3, "recordCreates": 4, "recordLookups": 11, "recordUpdates": 1, "start": 1, "subflows": 1, "variables": 6 } },
-{ "name": { "fullName": "Subflow_Generate_WOLIs_on_New_Work_Order_SS_Edits", "label": "Subflow - Generate WOLIs on New Work Order SS Edits" }, "description": "", "type": "AutoLaunchedFlow", "status": "Obsolete", "trigger": null, "components": { "assignments": 1, "decisions": 6, "formulas": 3, "processMetadataValues": 3, "recordCreates": 4, "recordLookups": 9, "start": 1, "subflows": 2, "variables": 6 } },
-{ "name": { "fullName": "Tech_Product_Purchase", "label": "Tech Product Purchase" }, "description": "FSL Mobile screen flow to record any material purchases for Techs", "type": "FieldServiceMobile", "status": "Active", "trigger": null, "components": { "decisions": 1, "processMetadataValues": 3, "recordCreates": 1, "recordLookups": 5, "screens": 1, "start": 1, "variables": 7 } },
-{ "name": { "fullName": "Total_Cost_and_Price_from_PCs", "label": "Total Cost and Price from PCs" }, "description": "Gets SUM of all PCs to the WO page. (Cost and Prices)", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "assignments": 4, "formulas": 1, "loops": 2, "processMetadataValues": 3, "recordLookups": 2, "recordUpdates": 2, "start": 1, "variables": 5 } },
-{ "name": { "fullName": "triggered_Add_work_plans_to_existing_WOLIs", "label": "triggered: Add work plans to existing WOLIs" }, "description": "", "type": "AutoLaunchedFlow", "status": "Obsolete", "trigger": { "type": "RecordAfterSave", "object": "WorkOrderLineItem" }, "components": { "actionCalls": 1, "assignments": 3, "decisions": 1, "loops": 1, "processMetadataValues": 3, "recordLookups": 1, "recordUpdates": 1, "start": 1, "variables": 12 } },
-{ "name": { "fullName": "Update_Asset_Location", "label": "Update Asset Location" }, "description": "", "type": "AutoLaunchedFlow", "status": "Obsolete", "trigger": null, "components": { "loops": 1, "processMetadataValues": 3, "recordLookups": 3, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Update_Case", "label": "Update Case" }, "description": "Work Type Group\/Location\/Contact ID\/Preferred Resource", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "Case" }, "components": { "assignments": 2, "decisions": 2, "loops": 1, "processMetadataValues": 3, "recordLookups": 3, "recordUpdates": 2, "start": 1, "variables": 2 } },
-{ "name": { "fullName": "Update_Duration_on_Edit", "label": "Update Duration on Edit" }, "description": "Migrated from the: Update Duration on Edit workflow rule\nWorkflow rule description: \"", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ServiceAppointment" }, "components": { "formulas": 1, "processMetadataValues": 1, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Update_PB_Rate_to_SA", "label": "Update PB Rate to SA" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "ServiceAppointment" }, "components": { "decisions": 1, "loops": 1, "processMetadataValues": 3, "recordLookups": 3, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Update_SA_from_WO", "label": "Update SA from WO" }, "description": "This one brings in Asset to SA, gantt label assign\nCloses Associated Cases", "type": "AutoLaunchedFlow", "status": "Obsolete", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "assignments": 1, "decisions": 4, "processMetadataValues": 3, "recordCreates": 2, "recordLookups": 1, "recordUpdates": 4, "start": 1, "variables": 7 } },
-{ "name": { "fullName": "Update_WO_Status", "label": "Update WO Status" }, "description": "New WO Status update screen flow", "type": "FieldServiceMobile", "status": "Active", "trigger": null, "components": { "assignments": 6, "choices": 3, "decisions": 1, "processMetadataValues": 3, "recordLookups": 1, "recordUpdates": 3, "screens": 4, "start": 1, "textTemplates": 1, "variables": 6 } },
-{ "name": { "fullName": "Update_Work_Plan_Case_Summary", "label": "Update Work Plan Case Summary" }, "description": "Updates the name of the work plan for case summaries", "type": "AutoLaunchedFlow", "status": "Draft", "trigger": { "type": "RecordAfterSave", "object": "WorkPlan" }, "components": { "formulas": 1, "processMetadataValues": 3, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "WO_Create_or_Update", "label": "WO Create or Update - Update WO" }, "description": "", "type": "AutoLaunchedFlow", "status": "Obsolete", "trigger": { "type": "RecordBeforeSave", "object": "WorkOrder" }, "components": { "assignments": 1, "decisions": 1, "processMetadataValues": 3, "start": 1, "variables": 1 } },
-{ "name": { "fullName": "WO_Create_or_Update-16", "label": "WO Create or Update - Update WO" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordBeforeSave", "object": "WorkOrder" }, "components": { "assignments": 4, "decisions": 2, "processMetadataValues": 3, "recordLookups": 1, "start": 1, "variables": 1 } },
-{ "name": { "fullName": "WO_Creation", "label": "WO Creation - Update WO + Create WOLIS" }, "description": "", "type": "AutoLaunchedFlow", "status": "Obsolete", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "assignments": 4, "decisions": 3, "processMetadataValues": 3, "recordCreates": 1, "recordLookups": 1, "recordUpdates": 2, "start": 1, "subflows": 1, "variables": 5 } },
-{ "name": { "fullName": "WO_Creation_Update_WO_Create_WOLIS", "label": "WO Creation - Update WO + Create WOLIS NEW" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "assignments": 2, "decisions": 1, "processMetadataValues": 3, "recordLookups": 1, "recordUpdates": 2, "start": 1, "subflows": 1, "variables": 5 } },
-{ "name": { "fullName": "WO_Status_change_by_Bill_Status", "label": "WO Status change by Bill Status V2" }, "description": "Updated Flow", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "actionCalls": 1, "assignments": 3, "decisions": 1, "formulas": 3, "loops": 1, "processMetadataValues": 3, "recordLookups": 3, "recordUpdates": 4, "start": 1, "textTemplates": 2, "variables": 2 } },
-{ "name": { "fullName": "WO_Accounting_Review", "label": "WO_Accounting_Review" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "WO_Awaiting_Invoice", "label": "WO_Awaiting_Invoice" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "WO_Awaiting_Materials", "label": "WO_Awaiting_Materials" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "WO_BillDate", "label": "WO_BillDate" }, "description": "Migrated from the: WO_BillDate workflow rule\nWorkflow rule description: Set Bill Date\"", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "WO_Closed", "label": "WO_Closed" }, "description": "Migrated from the: WO_Closed workflow rule\nWorkflow rule description: Set Close Date\"", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "WO_Estimating", "label": "WO_Estimating" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "WO_Completed", "label": "WO_Field_Work_Complete" }, "description": "Migrated from the: WO_Completed workflow rule\nWorkflow rule description: Set Completed Date and Send Email\"", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "actionCalls": 1, "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "WO_Field_Work_Review", "label": "WO_Field_Work_Review" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "WO_In_Progress", "label": "WO_In-Progress" }, "description": "Migrated from the: WO_In-Progress workflow rule\nWorkflow rule description: Set In-Progress Date\"", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "WO_Materials_Received", "label": "WO_Materials Received" }, "description": "When WO Status is changed to Materials Received", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "WO_NotBillable", "label": "WO_NotBillable" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "WO_On_Hold", "label": "WO_On_Hold" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "WO_POM_Review", "label": "WO_Order_Materials" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "WO_Pending_Customer_Approval", "label": "WO_Pending_Customer_Approval" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "WO_PO_Request_Submitted", "label": "WO_PO_Request_Submitted" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "WO_Ready_To_Schedule", "label": "WO_Ready_To_Schedule" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "WO_Reschedule", "label": "WO_Reschedule" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "WO_Return_Visit_Needed", "label": "WO_Return_Visit_Needed" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "WO_ReviewComplete", "label": "WO_ReviewComplete" }, "description": "Migrated from the: WO_ReviewComplete workflow rule\nWorkflow rule description: Set Review Complete  Date\"", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "WO_RMA_Inprogress", "label": "WO_RMA_Inprogress" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "WO_RMA_Received", "label": "WO_RMA_Received" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "WO_SalesOrderCreatedDate", "label": "WO_SalesOrderCreatedDate" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "WO_Scheduled", "label": "WO_Scheduled" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "WO_ServRep", "label": "WO_ServRep" }, "description": "Migrated from the: WO_ServRep workflow rule\nWorkflow rule description: Set ServRep Date\"", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "WO_Under_Review", "label": "WO_Under_Review" }, "description": "Migrated from the: WO_Under_Review workflow rule\nWorkflow rule description: Set UnderReview  Date\"", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrder" }, "components": { "formulas": 1, "processMetadataValues": 2, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "WOLI_Before_Save_Trigger", "label": "WOLI Before Save Trigger" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordBeforeSave", "object": "WorkOrderLineItem" }, "components": { "decisions": 1, "formulas": 1, "processMetadataValues": 3, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "WOLI_Create_or_Update", "label": "WOLI Create or Update" }, "description": "Update Recommendation and Inspection summary and create Issue found case", "type": "AutoLaunchedFlow", "status": "Obsolete", "trigger": { "type": "RecordAfterSave", "object": "WorkOrderLineItem" }, "components": { "assignments": 2, "decisions": 2, "processMetadataValues": 3, "recordCreates": 1, "recordUpdates": 3, "start": 1, "variables": 3 } },
-{ "name": { "fullName": "WOLI_Create_or_Update_New", "label": "WOLI Create or Update New" }, "description": "Triggered by WOLI on save which will pull in the inspection summary from WOLIs on based on WOLI record type and concatenate Case summaries to Executive Summary", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrderLineItem" }, "components": { "assignments": 25, "decisions": 3, "formulas": 3, "loops": 1, "processMetadataValues": 3, "recordCreates": 1, "recordLookups": 5, "recordUpdates": 8, "start": 1, "textTemplates": 4, "variables": 11 } },
-{ "name": { "fullName": "WOLI_Create_or_Update_Test", "label": "WOLI Create or Update Test" }, "description": "", "type": "AutoLaunchedFlow", "status": "Draft", "trigger": { "type": "RecordAfterSave", "object": "WorkOrderLineItem" }, "components": { "assignments": 2, "decisions": 2, "processMetadataValues": 3, "recordCreates": 1, "recordUpdates": 3, "start": 1, "variables": 3 } },
-{ "name": { "fullName": "WOLI_Estimated_Cost_Update", "label": "WOLI Estimated Cost Update" }, "description": "Cost WOLI with Rough financials updates the work order roll up summary fields for sum of all cost WOLIs with price and costs.", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrderLineItem" }, "components": { "formulas": 2, "processMetadataValues": 3, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "WOLI_Resolved", "label": "WOLI_Resolved" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordAfterSave", "object": "WorkOrderLineItem" }, "components": { "formulas": 1, "processMetadataValues": 3, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Work_Plans_for_Case_Summaries", "label": "Work Plans for Case Summaries" }, "description": "Mobile flow for updating Case summaries", "type": "FieldServiceMobile", "status": "Draft", "trigger": null, "components": { "choices": 3, "decisions": 6, "dynamicChoiceSets": 1, "processMetadataValues": 3, "recordLookups": 7, "recordUpdates": 8, "screens": 5, "start": 1, "variables": 13 } },
-{ "name": { "fullName": "Work_Plans_for_WOLI_Mobile_Flow", "label": "Work Plans for WOLI Mobile Flow" }, "description": "Displays a screen based on the WOLI record type, for the SFS mobile app \/ work plans interface.", "type": "FieldServiceMobile", "status": "Active", "trigger": null, "components": { "actionCalls": 7, "choices": 3, "decisions": 9, "dynamicChoiceSets": 1, "processMetadataValues": 3, "recordLookups": 8, "recordUpdates": 16, "screens": 6, "start": 1, "variables": 15 } },
-{ "name": { "fullName": "Work_Step_Set_to_In_Progress", "label": "Work Step - Set to In Progress" }, "description": "", "type": "AutoLaunchedFlow", "status": "Active", "trigger": { "type": "RecordBeforeSave", "object": "WorkStep" }, "components": { "decisions": 1, "processMetadataValues": 3, "recordUpdates": 1, "start": 1 } },
-{ "name": { "fullName": "Work_Type_to_Work_Plan", "label": "Work Type to Work Plan" }, "description": "Displays a screen based on the WOLI record type, for the SFS mobile app \/ work plans interface.", "type": "FieldServiceMobile", "status": "Active", "trigger": null, "components": { "actionCalls": 2, "choices": 5, "decisions": 34, "dynamicChoiceSets": 14, "processMetadataValues": 3, "recordLookups": 4, "recordUpdates": 85, "screens": 30, "start": 1, "variables": 43 } },
-{ "name": { "fullName": "WorkOrderLineItem_Insert", "label": "WorkOrderLineItem Insert" }, "description": "", "type": "Workflow", "status": "Active", "trigger": null, "components": { "actionCalls": 1, "decisions": 1, "formulas": 1, "processMetadataValues": 4, "variables": 2 } },
-{ "name": { "fullName": "WorkOrderLineItem_Insert_Update", "label": "WorkOrderLineItem Insert Update" }, "description": "", "type": "Workflow", "status": "Active", "trigger": null, "components": { "actionCalls": 1, "decisions": 1, "processMetadataValues": 4, "variables": 2 } }
-];
-
-  function renderFlowCount(detailTableId, typeIndex, statusIndex, statusValue) {
-    return function (data, type, row, meta) {
-      if (type !== 'display' || !row || !row.type || data === 0) return data;
-
-      const name = row.type;
-      const safeName = String(name).replace(/"/g, '&quot;');
-      const secondFilter =
-        typeof statusIndex === 'number' && typeof statusValue === 'string' && statusValue.length > 0
-        ? `setColumnFilter('${detailTableId}', ${statusIndex}, '${statusValue}');`
-        : '';
-      return `<a href="#" onclick="
-        clearAllFilters('${detailTableId}');
-        setColumnFilter('${detailTableId}', ${typeIndex}, '/^${safeName}$');
-        ${secondFilter}
-        scrollTableIntoView('${detailTableId}');
-        return false;
-      ">${data}</a>`;
-    };
-  }
-
-  function renderLabelAndFullName(data, type, row, meta) {
-    if (type !== 'display')
-      return data?.label + ' (' + data?.fullName + ')';
-
-    const fullName = data.fullName;
-    const label = data.label;
-    // Escape for HTML
-    const safeFullName = String(fullName).replace(/"/g, '&quot;');
-    const safeLabel = String(label).replace(/"/g, '&quot;');
-    return `<div>${safeLabel}</div><div class="ui gray label">${safeFullName}</div>`;
-  }
-
-  function renderTrigger(data, type, row, meta) {
-    if (!data) {
-      return null;
-    }
-
-    if (type !== 'display') {
-      return data?.type + ' (' + data?.object + ')';
-    }
-
-    return `<div>${data?.type}</div>${data?.object ? `<div class="ui blue label">${data?.object}</div>` : ''}`;
-  }
-
-  function renderComponents(data, type) {
-    if (typeof data === 'object' && data !== null && !Array.isArray(data)) {
-      const keys = Object.keys(data).sort();
-      if (type === 'display') {
-        return `<div class="ui list">${keys.map(key => `<div class="item">${key}: ${data[key]}</div>`).join('')}</div>`;
-      } else {
-        return keys.join('||');
+          const name = row.type;
+          const safeName = String(name).replace(/"/g, "&quot;");
+          const secondFilter =
+            (
+              typeof statusIndex === "number" &&
+              typeof statusValue === "string" &&
+              statusValue.length > 0
+            ) ?
+              `setColumnFilter('${detailTableId}', ${statusIndex}, '${statusValue}');`
+            : "";
+          return `<a href="#" onclick="
+            clearAllFilters('${detailTableId}');
+            setColumnFilter('${detailTableId}', ${typeIndex}, '/^${safeName}$');
+            ${secondFilter}
+            scrollTableIntoView('${detailTableId}');
+            return false;
+          ">${data}</a>`;
+        };
       }
-    }
-    return null;
-  }
 
-  $( document ).ready( function ()
-    {
-      initDataTableWithButtons(
-        '#flow-summary',
-        'Flow Summary',
-        true,
-        true,
-        {
-          data: summaryData,
+      function renderLabelAndFullName(data, type, row, meta) {
+        if (type !== "display")
+          return data?.label + " (" + data?.fullName + ")";
+
+        const fullName = data.fullName;
+        const label = data.label;
+        // Escape for HTML
+        const safeFullName = String(fullName).replace(/"/g, "&quot;");
+        const safeLabel = String(label).replace(/"/g, "&quot;");
+        return `<div>${safeLabel}</div><div class="ui gray label">${safeFullName}</div>`;
+      }
+
+      function renderTrigger(data, type, row, meta) {
+        if (!data) {
+          return null;
+        }
+
+        if (type !== "display") {
+          return data?.type + " (" + data?.object + ")";
+        }
+
+        return `<div>${data?.type}</div>${data?.object ? `<div class="ui blue label">${data?.object}</div>` : ""}`;
+      }
+
+      function renderComponents(data, type) {
+        if (typeof data === "object" && data !== null && !Array.isArray(data)) {
+          const keys = Object.keys(data).sort();
+          if (type === "display") {
+            return `<div class="ui list">${keys.map((key) => `<div class="item">${key}: ${data[key]}</div>`).join("")}</div>`;
+          } else {
+            return keys.join("||");
+          }
+        }
+        return null;
+      }
+
+      $(document).ready(function () {
+        initDataTableWithButtons("#flow-summary", "Flow Summary", true, true, {
+          data: flowSummaryData,
           columns: [
-            { data: 'type', title: 'Flow type' },
-            { data: 'total', title: 'Total', render: renderFlowCount('#flows', 1) },
-            { data: 'active', title: 'Active', render: renderFlowCount('#flows', 1, 2, 'Active') },
+            { data: "type", title: "Flow type" },
+            {
+              data: "total",
+              title: "Total",
+              render: renderFlowCount("#flows", 2),
+            },
+            {
+              data: "active",
+              title: "Active",
+              render: renderFlowCount("#flows", 2, 3, "Active"),
+            },
           ],
           pageLength: 20,
-          lengthMenu: [20, 40, 70, 100]
-        }
-      );
+          lengthMenu: [20, 40, 70, 100],
+        });
 
-      initDataTableWithButtons(
-        '#flows',
-        'Flows',
-        true,
-        true,
-        {
+        initDataTableWithButtons("#flows", "Flows", true, true, {
           data: flowData,
           columns: [
-            { data: 'name', title: 'Name', render: renderLabelAndFullName },
-            { data: 'description', title: 'Description' },
-            { data: 'type', title: 'Flow type' },
-            { data: 'status', title: 'Status' },
-            { data: 'trigger', title: 'Trigger', render: renderTrigger },
-            { data: 'components', title: 'Components', render: renderComponents },
+            { data: "name", title: "Name", render: renderLabelAndFullName },
+            { data: "description", title: "Description" },
+            { data: "type", title: "Flow type" },
+            { data: "status", title: "Status" },
+            { data: "trigger", title: "Trigger", render: renderTrigger },
+            {
+              data: "components",
+              title: "Components",
+              render: renderComponents,
+            },
           ],
           pageLength: 20,
-          lengthMenu: [20, 40, 70, 100]
-        }
-      );
-    }
-  );</script>
+          lengthMenu: [20, 40, 70, 100],
+        });
+      });
+    </script>
   </body>
 </html>
