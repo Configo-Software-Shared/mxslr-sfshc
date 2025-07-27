@@ -69,10 +69,10 @@
         let keyPrefixSection = "";
         if (data.keyPrefix !== "") {
           keyPrefixSection = `
-        <tr>
-          <td>Key Prefix</td>
-          <td>${data.keyPrefix}</td>
-        </tr>`;
+            <tr>
+              <td>Key Prefix</td>
+              <td>${data.keyPrefix}</td>
+            </tr>`;
         }
 
         let flagsSection = data.flags
@@ -82,64 +82,64 @@
         let customObjectSection = "";
         if (data.customObject) {
           customObjectSection = `
-        <tr>
-          <td>CustomObject</td>
-          <td>true</td>
-        </tr>`;
+            <tr>
+              <td>CustomObject</td>
+              <td>true</td>
+            </tr>`;
         }
 
         let topSection = `
-    <h2 class='ui header'>${data.name}</h2>
-    <table class="ui very basic collapsing celled table">
-      <tbody>
-        <tr>
-          <td>Label</td>
-          <td>${data.label}</td>
-        </tr>
-        <tr>
-          <td>Label Plural</td>
-          <td>${data.labelPlural}</td>
-        </tr>
-        ${keyPrefixSection}
-        <tr>
-          <td>Flags</td>
-          <td>
-            <div class="ui horizontal list">
-              ${flagsSection}
-            </div>
-          </td>
-        </tr>
-        <!-- TODO: Reinstate these when we have meaningful URLs available
-        <tr>
-          <td>URL Detail</td>
-          <td>${data.urlDetail}</td>
-        </tr>
-        <tr>
-          <td>URL Edit</td>
-          <td>${data.urlEdit}</td>
-        </tr>
-        <tr>
-          <td>URL New</td>
-          <td>${data.urlNew}</td>
-        </tr>
-         -->
-        ${customObjectSection}
-      </tbody>
-    </table>`;
+          <h2 class='ui header'>${data.name}</h2>
+          <table class="ui very basic collapsing celled table">
+            <tbody>
+              <tr>
+                <td>Label</td>
+                <td>${data.label}</td>
+              </tr>
+              <tr>
+                <td>Label Plural</td>
+                <td>${data.labelPlural}</td>
+              </tr>
+              ${keyPrefixSection}
+              <tr>
+                <td>Flags</td>
+                <td>
+                  <div class="ui horizontal list">
+                    ${flagsSection}
+                  </div>
+                </td>
+              </tr>
+              <!-- TODO: Reinstate these when we have meaningful URLs available
+              <tr>
+                <td>URL Detail</td>
+                <td>${data.urlDetail}</td>
+              </tr>
+              <tr>
+                <td>URL Edit</td>
+                <td>${data.urlEdit}</td>
+              </tr>
+              <tr>
+                <td>URL New</td>
+                <td>${data.urlNew}</td>
+              </tr>
+              -->
+              ${customObjectSection}
+            </tbody>
+          </table>`;
 
         let fieldsSectionHeader = `
-    <h3 class='ui header'>Fields</h3>
-    <table id='${tabId}-fields-table' class="ui collapsing celled table">
-      <thead>
-        <tr class="header">
-          <th>Name</th>
-          <th>Label</th>
-          <th>Type</th>
-          <th>Flags</th>
-          <th>CustomObject</th>
-        </tr>
-      </thead>
-      <tbody>`;
+          <h3 class='ui header'>Fields</h3>
+          <table id='${tabId}-fields-table' class="ui celled table">
+            <thead>
+              <tr class="header">
+                <th>Name</th>
+                <th>Label</th>
+                <th>Type</th>
+                <th>Flags</th>
+                <th>CustomObject</th>
+              </tr>
+            </thead>
+            <tbody>`;
 
         let fieldsSection = data.fields
           .map((field) => {
@@ -152,8 +152,7 @@
             if (type !== null && typeof type === "object") {
               if (type.type === "picklist") {
                 type =
-                  `
-            <div>picklist <span class="ui labels">` +
+                  `<div>picklist <span class="ui labels">` +
                   type.values
                     .map(
                       (value) =>
@@ -163,12 +162,15 @@
                   "</span></div>";
               } else if (type.type === "reference") {
                 type =
-                  `
-            <div>reference <span class="ui labels">` +
+                  `<div>reference <span class="ui labels">` +
                   type.targets
                     .map(
                       (target) =>
-                        `<a class="ui primary basic label" onclick="addAndDisplayObjectDetails('${target}', true, false)"><i class="arrow right icon"></i>${target}</a>`
+                        `<a class="ui primary basic label"
+                          onclick="addAndDisplayObjectDetails('${target}', false, false)"
+                          ondblclick="addAndDisplayObjectDetails('${target}', true, true)">
+                          <i class="arrow right icon"></i>${target}
+                        </a>`
                     )
                     .join("") +
                   "</span></div>";
@@ -183,23 +185,21 @@
               .join("");
 
             return `
-        <tr>
-          <td>${name}</td>
-          <td>${field.label}</td>
-          <td>${type}</td>
-          <td>
-            <div class="ui labels">
-              ${flagsSection}
-            </div>
-          </td>
-          <td>${field.custom}</td>
-        </tr>`;
+              <tr>
+                <td>${name}</td>
+                <td>${field.label}</td>
+                <td>${type}</td>
+                <td>
+                  <div class="ui labels">
+                    ${flagsSection}
+                  </div>
+                </td>
+                <td>${field.custom}</td>
+              </tr>`;
           })
           .join("");
 
-        let fieldsSectionFooter = `
-      </tbody>
-    </table>`;
+        let fieldsSectionFooter = "</tbody></table>";
 
         return (
           topSection + fieldsSectionHeader + fieldsSection + fieldsSectionFooter
