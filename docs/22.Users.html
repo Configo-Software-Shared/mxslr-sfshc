@@ -84,12 +84,43 @@
             "</div>"
           );
         } else {
-          return data;
+          return Object.keys(data).join("||");
+        }
+      }
+
+      function renderObjectPermissionSources(data, type, row, meta) {
+        if (type === "display") {
+          const permissionTypes = Object.keys(data).sort();
+          return (
+            "<div class='ui vertical list'>" +
+            permissionTypes
+              .map((permissionType) => {
+                const sources = data[permissionType];
+                const sourceItems = sources
+                  .map((s) =>
+                    s.startsWith("[P] ") ?
+                      `<div class="item"><div class="ui blue horizontal label">P</div>${s.substring(4)}</div>`
+                    : `<div class="item"><div class="ui teal horizontal label">PS</div>${s}</div>`
+                  )
+                  .join("");
+                return `<div class="item">
+                    <div class="ui purple horizontal label">${permissionType}</div>
+                    <div class="ui horizontal list">${sourceItems}</div>
+                  </div>`;
+              })
+              .join("") +
+            "</div>"
+          );
+        } else {
+          return Object.keys(data).map((permission) => {
+            return `[${permission}]=>{${data[permission].join(", ")}}`;
+          });
         }
       }
 
       // User-specific content generation
       const permissionSuffix = "permissions";
+      const objectSuffix = "objects";
 
       function generateUserDetailsHtml(tabId, data) {
         let permissionSetsSection = data.permissionSets
@@ -145,7 +176,18 @@
             </thead>
           </table>`;
 
-        return topSection + permissionsSection;
+        let objectsSection = `
+          <h3 class='ui header'>Object Permissions</h3>
+          <table id='${tabId}-${objectSuffix}' class="ui celled table">
+            <thead>
+              <tr class="header">
+                <th>Object/Field</th>
+                <th>Sources</th>
+              </tr>
+            </thead>
+          </table>`;
+
+        return topSection + permissionsSection + objectsSection;
       }
 
       function initializeUserDataTables(tabId, data) {
@@ -174,6 +216,26 @@
             $(this).DataTable().columns.adjust();
           }
         });
+
+        $(`#${tabId}-${objectSuffix}`).each(function () {
+          if ($.fn.dataTable && !$.fn.dataTable.isDataTable(this)) {
+            initDataTableWithButtons(
+              `#${this.id}`,
+              `Object Permissions for ${data.username}`,
+              true,
+              true,
+              {
+                data: getObjectPermissionsData(data),
+                columns: [
+                  { title: "Object/Field" },
+                  { title: "Sources", render: renderObjectPermissionSources },
+                ],
+              }
+            );
+          } else if ($.fn.dataTable.isDataTable(this)) {
+            $(this).DataTable().columns.adjust();
+          }
+        });
       }
 
       function cleanupUserDataTables(tabId) {
@@ -184,6 +246,15 @@
           : null;
         if (dataTable) {
           dataTable.destroy();
+        }
+
+        const objectsTableSelector = `#${tabId}-${objectSuffix}`;
+        const objectsDataTable =
+          $.fn.DataTable.isDataTable(objectsTableSelector) ?
+            $(objectsTableSelector).DataTable()
+          : null;
+        if (objectsDataTable) {
+          objectsDataTable.destroy();
         }
       }
 
@@ -233,6 +304,91 @@
         // Convert to the required format: [permission, permissionSetsObject]
         return Object.entries(permissionToPermissionSets).map(
           ([permission, permissionSetsObj]) => [permission, permissionSetsObj]
+        );
+      }
+
+      function getObjectPermissionsData(data) {
+        // Get all permission sets that the user has, including profile
+        const userPermissionSets = [
+          `[P] ${data.profile.value}`,
+          ...data.permissionSets.map((ps) => ps.value),
+        ];
+
+        // Create a map to store object/field -> permission types -> permission sets mapping
+        const objectToPermissionTypes = {};
+
+        // Iterate through each permission set the user has
+        userPermissionSets.forEach((permissionSetName) => {
+          // Get the object permissions for this permission set
+          const objectPermissions = objectsPermissions[permissionSetName];
+
+          if (objectPermissions) {
+            // For each object permission entry
+            objectPermissions.forEach(
+              ([objectIndex, objectPermissions, fieldPermissions]) => {
+                const object = objectsArray[objectIndex];
+                if (object) {
+                  const objectName = object.o;
+
+                  // Add object-level permissions
+                  if (!objectToPermissionTypes[objectName]) {
+                    objectToPermissionTypes[objectName] = {};
+                  }
+                  if (!objectToPermissionTypes[objectName][objectPermissions]) {
+                    objectToPermissionTypes[objectName][objectPermissions] = [];
+                  }
+                  objectToPermissionTypes[objectName][objectPermissions].push(
+                    permissionSetName
+                  );
+
+                  // Add field-level permissions
+                  fieldPermissions.forEach(([fieldIndex, fieldPermissions]) => {
+                    const fieldName = object.fs[fieldIndex];
+                    if (fieldName) {
+                      const fieldKey = `${objectName}.${fieldName}`;
+                      if (!objectToPermissionTypes[fieldKey]) {
+                        objectToPermissionTypes[fieldKey] = {};
+                      }
+                      if (
+                        !objectToPermissionTypes[fieldKey][fieldPermissions]
+                      ) {
+                        objectToPermissionTypes[fieldKey][fieldPermissions] =
+                          [];
+                      }
+                      objectToPermissionTypes[fieldKey][fieldPermissions].push(
+                        permissionSetName
+                      );
+                    }
+                  });
+                }
+              }
+            );
+          }
+        });
+
+        // Sort permission sets within each permission type (profiles first)
+        Object.keys(objectToPermissionTypes).forEach((objectOrField) => {
+          Object.keys(objectToPermissionTypes[objectOrField]).forEach(
+            (permissionType) => {
+              objectToPermissionTypes[objectOrField][permissionType].sort(
+                (a, b) => {
+                  const aIsProfile = a.startsWith("[P] ");
+                  const bIsProfile = b.startsWith("[P] ");
+                  if (aIsProfile && !bIsProfile) return -1;
+                  if (!aIsProfile && bIsProfile) return 1;
+                  return a.localeCompare(b);
+                }
+              );
+            }
+          );
+        });
+
+        // Convert to the required format: [object/field, permissionTypesObject]
+        return Object.entries(objectToPermissionTypes).map(
+          ([objectOrField, permissionTypesObj]) => [
+            objectOrField,
+            permissionTypesObj,
+          ]
         );
       }
 
