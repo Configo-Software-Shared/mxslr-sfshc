@@ -311,7 +311,7 @@
         // Get all permission sets that the user has, including profile
         const userPermissionSets = [
           `[P] ${data.profile.value}`,
-          ...data.permissionSets.map((ps) => ps.value),
+          ...data.permissionSets.map((ps) => ps.value).sort(),
         ];
 
         // Create a map to store object/field -> permission types -> permission sets mapping
@@ -364,23 +364,6 @@
               }
             );
           }
-        });
-
-        // Sort permission sets within each permission type (profiles first)
-        Object.keys(objectToPermissionTypes).forEach((objectOrField) => {
-          Object.keys(objectToPermissionTypes[objectOrField]).forEach(
-            (permissionType) => {
-              objectToPermissionTypes[objectOrField][permissionType].sort(
-                (a, b) => {
-                  const aIsProfile = a.startsWith("[P] ");
-                  const bIsProfile = b.startsWith("[P] ");
-                  if (aIsProfile && !bIsProfile) return -1;
-                  if (!aIsProfile && bIsProfile) return 1;
-                  return a.localeCompare(b);
-                }
-              );
-            }
-          );
         });
 
         // Convert to the required format: [object/field, permissionTypesObject]
