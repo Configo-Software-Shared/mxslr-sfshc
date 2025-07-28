@@ -38,10 +38,10 @@
         <tr class="header">
           <th>Object Name</th>
           <th>Fields Count</th>
+          <th>Fields Without Access</th>
           <th>Profiles with Access</th>
           <th>Permission Sets with Access</th>
           <th>Users with Access</th>
-          <th>Fields Without Access</th>
         </tr>
       </thead>
     </table>
@@ -96,6 +96,10 @@
                 <td>${data.fieldCount}</td>
               </tr>
               <tr>
+                <td>Fields Without Access</td>
+                <td>${data.fieldsWithoutAccess}</td>
+              </tr>
+              <tr>
                 <td>Profiles with Access</td>
                 <td>${data.profileCount}</td>
               </tr>
@@ -106,10 +110,6 @@
               <tr>
                 <td>Users with Access</td>
                 <td>${data.userCount}</td>
-              </tr>
-              <tr>
-                <td>Fields Without Access</td>
-                <td>${data.fieldsWithoutAccess}</td>
               </tr>
             </tbody>
           </table>`;
@@ -459,10 +459,10 @@
           columns: [
             { data: "name", render: renderObjectName },
             { data: "fieldCount" },
+            { data: "fieldsWithoutAccess" },
             { data: "profileCount" },
             { data: "permissionSetCount" },
             { data: "userCount" },
-            { data: "fieldsWithoutAccess" },
           ],
         });
 
