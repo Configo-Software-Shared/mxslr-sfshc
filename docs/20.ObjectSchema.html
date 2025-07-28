@@ -19,6 +19,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/v/se/jszip-3.10.1/dt-2.0.7/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/cr-2.0.2/date-1.5.2/fc-5.0.0/fh-4.0.1/kt-2.12.0/r-3.0.2/rg-1.5.0/sc-2.4.2/sb-1.7.1/sp-2.3.1/datatables.min.js"></script>
     <script type="text/javascript" src="script/cfg-tables.js"></script>
+    <script type="text/javascript" src="script/cfg-tabs.js"></script>
     <script type="text/javascript" src="20.ObjectSchema.js"></script>
     <title>Object Schema</title>
     <style>
@@ -65,7 +66,8 @@
         }
       }
 
-      function getObjectDetailsHtml(tabId, data) {
+      // Object Schema specific content generation
+      function generateObjectDetailsHtml(tabId, data) {
         let keyPrefixSection = "";
         if (data.keyPrefix !== "") {
           keyPrefixSection = `
@@ -167,8 +169,8 @@
                     .map(
                       (target) =>
                         `<a class="ui primary basic label"
-                          onclick="addAndDisplayObjectDetails('${target}', false, false)"
-                          ondblclick="addAndDisplayObjectDetails('${target}', true, true)">
+                          onclick="addAndDisplayDetails('${target}', false, false)"
+                          ondblclick="addAndDisplayDetails('${target}', true, true)">
                           <i class="arrow right icon"></i>${target}
                         </a>`
                     )
@@ -206,145 +208,61 @@
         );
       }
 
-      function displayObjectDetails(objName, scrollIntoView) {
-        let existingTab = document.getElementById(`tab-obj-${objName}`);
-        if (existingTab !== null) {
-          existingTab.click();
-        } else {
-          let objData = data.find((row) => row.name === objName);
-          if (objData) {
-            // Destroy existing DataTable if it exists
-            const tableSelector = "#tab-current-fields-table";
-            const dataTable =
-              $.fn.DataTable.isDataTable(tableSelector) ?
-                $(tableSelector).DataTable()
-              : null;
-            if (dataTable) {
-              dataTable.destroy();
-            }
+      function initializeObjectDetailsDataTables(tabId, data) {
+        // There are two cases: one with initialized tabId and data, and one where tabId is the identifier, and data is undefined.
+        if (data === undefined) {
+          data = findObjectDetails(tabId);
+          tabId = getTabId(tabId);
+        }
 
-            document.getElementById("tab-current").innerHTML =
-              getObjectDetailsHtml("tab-current", objData);
+        $(`#${tabId}-fields-table`).each(function () {
+          if ($.fn.dataTable && !$.fn.dataTable.isDataTable(this)) {
             initDataTableWithButtons(
-              "#tab-current-fields-table",
-              `${objName} Fields`,
+              `#${this.id}`,
+              `Fields for ${data.name}`,
               true,
               true,
               {
                 pageLength: 50,
               }
             );
-          } else {
-            document.getElementById("tab-current").innerHTML =
-              `<div class="ui negative message">Object "${objName}" not found.</div>`;
+          } else if ($.fn.dataTable.isDataTable(this)) {
+            $(this).DataTable().columns.adjust();
           }
+        });
+      }
 
-          let menuItem = document.getElementById("tab-menu-current");
-          menuItem.innerHTML = `<i>${objName}</i>`;
-          menuItem.click();
-        }
-
-        if (scrollIntoView) {
-          document.getElementById("tab-menu").scrollIntoView();
+      function cleanupObjectDetailsDataTables(tabId) {
+        const tableSelector = `#${tabId}-fields-table`;
+        const dataTable =
+          $.fn.DataTable.isDataTable(tableSelector) ?
+            $(tableSelector).DataTable()
+          : null;
+        if (dataTable) {
+          dataTable.destroy();
         }
       }
 
-      function addAndDisplayObjectDetails(objName, showTab, scrollIntoView) {
-        let objTab = document.getElementById(`tab-obj-${objName}`);
-        let tabContent = document.querySelector(`[data-tab="${objName}"]`);
+      // Create tabbed details manager for object schema
+      const objectSchemaTabManager = createTabbedDetailsManager({
+        generateContent: generateObjectDetailsHtml,
+        initializeContent: initializeObjectDetailsDataTables,
+        cleanupContent: cleanupObjectDetailsDataTables,
+        getTabId: getTabId,
+        findData: findObjectDetails,
+        notFoundMessage: 'Object "{identifier}" not found.',
+      });
 
-        // Clean up orphaned content if tab doesn't exist but content does
-        if (objTab === null && tabContent !== null) {
-          tabContent.remove();
-          tabContent = null;
-        }
+      // Extract the functions for use in click handlers
+      const { displayDetails, addAndDisplayDetails, closeTab } =
+        objectSchemaTabManager;
 
-        if (objTab === null) {
-          // Create new tab and content
-          let newTabDetail = document.createElement("div");
-          newTabDetail.setAttribute("class", "ui bottom attached tab segment");
-          newTabDetail.setAttribute("data-tab", objName);
-          document.getElementById("details").appendChild(newTabDetail);
-
-          objTab = document.createElement("a");
-          objTab.setAttribute("id", `tab-obj-${objName}`);
-          objTab.setAttribute("class", "item");
-          objTab.setAttribute("data-tab", objName);
-          objTab.innerHTML = `${objName} <i class="close icon" onclick="closeTab('${objName}', event)" style="margin-left: 0.5em; margin-right:-0.3em;"></i>`;
-          document.getElementById("tab-menu").appendChild(objTab);
-
-          tabContent = newTabDetail;
-          $(".menu .item").tab();
-
-          // Populate the content
-          let objData = data.find((row) => row.name === objName);
-          if (objData && tabContent) {
-            // Destroy existing DataTable if it exists
-            const tableSelector = `#tab-obj-${objName}-fields-table`;
-            const dataTable =
-              $.fn.DataTable.isDataTable(tableSelector) ?
-                $(tableSelector).DataTable()
-              : null;
-            if (dataTable) {
-              dataTable.destroy();
-            }
-
-            tabContent.innerHTML = getObjectDetailsHtml(
-              `tab-obj-${objName}`,
-              objData
-            );
-            initDataTableWithButtons(
-              `#tab-obj-${objName}-fields-table`,
-              `${objName} Fields`,
-              true,
-              true,
-              {
-                pageLength: 50,
-              }
-            );
-          } else if (tabContent) {
-            tabContent.innerHTML = `<div class="ui negative message">Object "${objName}" not found.</div>`;
-          }
-        }
-
-        if (showTab) {
-          objTab.click();
-        }
-
-        if (scrollIntoView) {
-          document.getElementById("tab-menu").scrollIntoView();
-        }
+      function findObjectDetails(name) {
+        return data.find((row) => row.name === name);
       }
 
-      function closeTab(objName, event) {
-        event.stopPropagation(); // Prevent tab activation when clicking close button
-
-        const tabElement = document.getElementById(`tab-obj-${objName}`);
-        const tabContent = document.querySelector(`[data-tab="${objName}"]`);
-
-        if (tabElement && tabContent) {
-          // Destroy DataTable instance before removing DOM elements
-          const tableSelector = `#tab-obj-${objName}-fields-table`;
-          const dataTable =
-            $.fn.DataTable.isDataTable(tableSelector) ?
-              $(tableSelector).DataTable()
-            : null;
-          if (dataTable) {
-            dataTable.destroy();
-          }
-
-          // Remove tab and content
-          tabElement.remove();
-          tabContent.remove();
-
-          // If the closed tab was active, switch to the first tab
-          if (tabElement.classList.contains("active")) {
-            document.getElementById("tab-menu-current").click();
-          }
-
-          // Reinitialize tabs
-          $(".menu .item").tab();
-        }
+      function getTabId(name) {
+        return `tab-obj-${name.replace(/[@\.]/g, "_")}`;
       }
 
       $(document).ready(function () {
@@ -373,7 +291,7 @@
             // Do nothing here; dblclick will handle
           } else {
             clickTimer = setTimeout(() => {
-              displayObjectDetails(objName); // single-click
+              displayDetails(objName); // single-click
               clickTimer = null;
             }, 300);
           }
@@ -386,10 +304,12 @@
             clickTimer = null;
           }
           const objName = $(this).find(".name").text();
-          addAndDisplayObjectDetails(objName, true, false); // double-click
+          addAndDisplayDetails(objName, true, false); // double-click
         });
 
-        $(".menu .item").tab();
+        $(".menu .item").tab({
+          onVisible: initializeObjectDetailsDataTables,
+        });
       });
     </script>
   </body>
