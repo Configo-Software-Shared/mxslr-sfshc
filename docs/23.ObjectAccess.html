@@ -73,12 +73,10 @@
       function renderProfilePermissionSet(data, type, row, meta) {
         if (type === "display") {
           return data.startsWith("[P] ") ?
-            `<div class="name" data-original-name="${data}"><div class="ui blue horizontal label">Profile</div>${data.substring(4)}</div>`
-          : `<div class="name" data-original-name="${data}"><div class="ui teal horizontal label">Permission Set</div>${data}</div>`;
+              `<div class="name" data-original-name="${data}"><div class="ui blue horizontal label">Profile</div>${data.substring(4)}</div>`
+            : `<div class="name" data-original-name="${data}"><div class="ui teal horizontal label">Permission Set</div>${data}</div>`;
         } else {
-          return data.startsWith("[P] ") ?
-            data
-            : `[PS] data`;
+          return data.startsWith("[P] ") ? data : `[PS] data`;
         }
       }
 
@@ -182,7 +180,10 @@
                 data: getAccessData(data),
                 columns: [
                   { title: "Object/Field" },
-                  { title: "Profile/Permission Set", render: renderProfilePermissionSet },
+                  {
+                    title: "Profile/Permission Set",
+                    render: renderProfilePermissionSet,
+                  },
                   { title: "Permissions" },
                 ],
               }
@@ -224,71 +225,84 @@
       });
 
       // Extract the functions for use in click handlers
-      const { displayDetails, addAndDisplayDetails, closeTab } = objectAccessTabManager;
+      const { displayDetails, addAndDisplayDetails, closeTab } =
+        objectAccessTabManager;
 
       function getFieldsData(data) {
-        const objectIndex = objectsArray.findIndex(obj => obj.o === data.name);
+        const objectIndex = objectsArray.findIndex(
+          (obj) => obj.o === data.name
+        );
         if (objectIndex === -1) return [];
 
         const fields = objectsArray[objectIndex].fs;
         const result = [];
 
-        fields.forEach(fieldName => {
+        fields.forEach((fieldName) => {
           let profileCount = 0;
           let permissionSetCount = 0;
           let userCount = 0;
 
           // Count profiles and permission sets with access to this field
-          Object.keys(objectsPermissions).forEach(permissionSetName => {
+          Object.keys(objectsPermissions).forEach((permissionSetName) => {
             const objectPermissions = objectsPermissions[permissionSetName];
             if (objectPermissions) {
-              objectPermissions.forEach(([objIndex, objectPermissions, fieldPermissions]) => {
-                if (objIndex === objectIndex) {
-                  // Check if this permission set has access to the object
-                  if (objectPermissions && objectPermissions !== "") {
-                    // Check field-level permissions
-                    const fieldIndex = fields.indexOf(fieldName);
-                    const hasFieldAccess = fieldPermissions.some(([fIndex, fPermissions]) => 
-                      fIndex === fieldIndex && fPermissions && fPermissions !== ""
-                    );
+              objectPermissions.forEach(
+                ([objIndex, objectPermissions, fieldPermissions]) => {
+                  if (objIndex === objectIndex) {
+                    // Check if this permission set has access to the object
+                    if (objectPermissions && objectPermissions !== "") {
+                      // Check field-level permissions
+                      const fieldIndex = fields.indexOf(fieldName);
+                      const hasFieldAccess = fieldPermissions.some(
+                        ([fIndex, fPermissions]) =>
+                          fIndex === fieldIndex &&
+                          fPermissions &&
+                          fPermissions !== ""
+                      );
 
-                    if (hasFieldAccess) {
-                      if (permissionSetName.startsWith("[P] ")) {
-                        profileCount++;
-                      } else {
-                        permissionSetCount++;
+                      if (hasFieldAccess) {
+                        if (permissionSetName.startsWith("[P] ")) {
+                          profileCount++;
+                        } else {
+                          permissionSetCount++;
+                        }
                       }
                     }
                   }
                 }
-              });
+              );
             }
           });
 
           // Count users with access to this field
-          usersData.forEach(user => {
+          usersData.forEach((user) => {
             const userPermissionSets = [
               `[P] ${user.profile.value}`,
-              ...user.permissionSets.map(ps => ps.value)
+              ...user.permissionSets.map((ps) => ps.value),
             ];
 
             let hasAccess = false;
-            userPermissionSets.forEach(permissionSetName => {
+            userPermissionSets.forEach((permissionSetName) => {
               const objectPermissions = objectsPermissions[permissionSetName];
               if (objectPermissions) {
-                objectPermissions.forEach(([objIndex, objectPermissions, fieldPermissions]) => {
-                  if (objIndex === objectIndex) {
-                    if (objectPermissions && objectPermissions !== "") {
-                      const fieldIndex = fields.indexOf(fieldName);
-                      const hasFieldAccess = fieldPermissions.some(([fIndex, fPermissions]) => 
-                        fIndex === fieldIndex && fPermissions && fPermissions !== ""
-                      );
-                      if (hasFieldAccess) {
-                        hasAccess = true;
+                objectPermissions.forEach(
+                  ([objIndex, objectPermissions, fieldPermissions]) => {
+                    if (objIndex === objectIndex) {
+                      if (objectPermissions && objectPermissions !== "") {
+                        const fieldIndex = fields.indexOf(fieldName);
+                        const hasFieldAccess = fieldPermissions.some(
+                          ([fIndex, fPermissions]) =>
+                            fIndex === fieldIndex &&
+                            fPermissions &&
+                            fPermissions !== ""
+                        );
+                        if (hasFieldAccess) {
+                          hasAccess = true;
+                        }
                       }
                     }
                   }
-                });
+                );
               }
             });
 
@@ -304,48 +318,58 @@
       }
 
       function getAccessData(data) {
-        const objectIndex = objectsArray.findIndex(obj => obj.o === data.name);
+        const objectIndex = objectsArray.findIndex(
+          (obj) => obj.o === data.name
+        );
         if (objectIndex === -1) return [];
 
         const result = [];
 
         // Add object-level access
-        Object.keys(objectsPermissions).forEach(permissionSetName => {
+        Object.keys(objectsPermissions).forEach((permissionSetName) => {
           const objectPermissions = objectsPermissions[permissionSetName];
           if (objectPermissions) {
-            objectPermissions.forEach(([objIndex, objectPermissions, fieldPermissions]) => {
-              if (objIndex === objectIndex && objectPermissions && objectPermissions !== "") {
-                result.push([
-                  data.name,
-                  permissionSetName,
-                  objectPermissions
-                ]);
+            objectPermissions.forEach(
+              ([objIndex, objectPermissions, fieldPermissions]) => {
+                if (
+                  objIndex === objectIndex &&
+                  objectPermissions &&
+                  objectPermissions !== ""
+                ) {
+                  result.push([
+                    data.name,
+                    permissionSetName,
+                    objectPermissions,
+                  ]);
+                }
               }
-            });
+            );
           }
         });
 
         // Add field-level access
         const fields = objectsArray[objectIndex].fs;
-        Object.keys(objectsPermissions).forEach(permissionSetName => {
+        Object.keys(objectsPermissions).forEach((permissionSetName) => {
           const objectPermissions = objectsPermissions[permissionSetName];
           if (objectPermissions) {
-            objectPermissions.forEach(([objIndex, objectPermissions, fieldPermissions]) => {
-              if (objIndex === objectIndex) {
-                fieldPermissions.forEach(([fieldIndex, fieldPermissions]) => {
-                  if (fieldPermissions && fieldPermissions !== "") {
-                    const fieldName = fields[fieldIndex];
-                    if (fieldName) {
-                      result.push([
-                        `${data.name}.${fieldName}`,
-                        permissionSetName,
-                        fieldPermissions
-                      ]);
+            objectPermissions.forEach(
+              ([objIndex, objectPermissions, fieldPermissions]) => {
+                if (objIndex === objectIndex) {
+                  fieldPermissions.forEach(([fieldIndex, fieldPermissions]) => {
+                    if (fieldPermissions && fieldPermissions !== "") {
+                      const fieldName = fields[fieldIndex];
+                      if (fieldName) {
+                        result.push([
+                          `${data.name}.${fieldName}`,
+                          permissionSetName,
+                          fieldPermissions,
+                        ]);
+                      }
                     }
-                  }
-                });
+                  });
+                }
               }
-            });
+            );
           }
         });
 
@@ -363,48 +387,60 @@
       // Generate the master table data
       function generateObjectsAccessData() {
         const result = [];
-        
+
         objectsArray.forEach((object, objectIndex) => {
           const objectName = object.o;
           const fields = object.fs;
-          
+
           let profileCount = 0;
           let permissionSetCount = 0;
           let userCount = 0;
           let fieldsWithoutAccess = 0;
 
           // Count profiles and permission sets with access to this object
-          Object.keys(objectsPermissions).forEach(permissionSetName => {
+          Object.keys(objectsPermissions).forEach((permissionSetName) => {
             const objectPermissions = objectsPermissions[permissionSetName];
             if (objectPermissions) {
-              objectPermissions.forEach(([objIndex, objectPermissions, fieldPermissions]) => {
-                if (objIndex === objectIndex && objectPermissions && objectPermissions !== "") {
-                  if (permissionSetName.startsWith("[P] ")) {
-                    profileCount++;
-                  } else {
-                    permissionSetCount++;
+              objectPermissions.forEach(
+                ([objIndex, objectPermissions, fieldPermissions]) => {
+                  if (
+                    objIndex === objectIndex &&
+                    objectPermissions &&
+                    objectPermissions !== ""
+                  ) {
+                    if (permissionSetName.startsWith("[P] ")) {
+                      profileCount++;
+                    } else {
+                      permissionSetCount++;
+                    }
                   }
                 }
-              });
+              );
             }
           });
 
           // Count users with access to this object
-          usersData.forEach(user => {
+          usersData.forEach((user) => {
             const userPermissionSets = [
               `[P] ${user.profile.value}`,
-              ...user.permissionSets.map(ps => ps.value)
+              ...user.permissionSets.map((ps) => ps.value),
             ];
 
             let hasAccess = false;
-            userPermissionSets.forEach(permissionSetName => {
+            userPermissionSets.forEach((permissionSetName) => {
               const objectPermissions = objectsPermissions[permissionSetName];
               if (objectPermissions) {
-                objectPermissions.forEach(([objIndex, objectPermissions, fieldPermissions]) => {
-                  if (objIndex === objectIndex && objectPermissions && objectPermissions !== "") {
-                    hasAccess = true;
+                objectPermissions.forEach(
+                  ([objIndex, objectPermissions, fieldPermissions]) => {
+                    if (
+                      objIndex === objectIndex &&
+                      objectPermissions &&
+                      objectPermissions !== ""
+                    ) {
+                      hasAccess = true;
+                    }
                   }
-                });
+                );
               }
             });
 
@@ -414,22 +450,27 @@
           });
 
           // Count fields without any access
-          fields.forEach(fieldName => {
+          fields.forEach((fieldName) => {
             let hasAnyAccess = false;
-            Object.keys(objectsPermissions).forEach(permissionSetName => {
+            Object.keys(objectsPermissions).forEach((permissionSetName) => {
               const objectPermissions = objectsPermissions[permissionSetName];
               if (objectPermissions) {
-                objectPermissions.forEach(([objIndex, objectPermissions, fieldPermissions]) => {
-                  if (objIndex === objectIndex) {
-                    const fieldIndex = fields.indexOf(fieldName);
-                    const hasFieldAccess = fieldPermissions.some(([fIndex, fPermissions]) => 
-                      fIndex === fieldIndex && fPermissions && fPermissions !== ""
-                    );
-                    if (hasFieldAccess) {
-                      hasAnyAccess = true;
+                objectPermissions.forEach(
+                  ([objIndex, objectPermissions, fieldPermissions]) => {
+                    if (objIndex === objectIndex) {
+                      const fieldIndex = fields.indexOf(fieldName);
+                      const hasFieldAccess = fieldPermissions.some(
+                        ([fIndex, fPermissions]) =>
+                          fIndex === fieldIndex &&
+                          fPermissions &&
+                          fPermissions !== ""
+                      );
+                      if (hasFieldAccess) {
+                        hasAnyAccess = true;
+                      }
                     }
                   }
-                });
+                );
               }
             });
 
@@ -444,10 +485,10 @@
             profileCount: profileCount,
             permissionSetCount: permissionSetCount,
             userCount: userCount,
-            fieldsWithoutAccess: fieldsWithoutAccess
+            fieldsWithoutAccess: fieldsWithoutAccess,
           });
         });
-        
+
         return result;
       }
 
@@ -497,4 +538,4 @@
       });
     </script>
   </body>
-</html> 
+</html>

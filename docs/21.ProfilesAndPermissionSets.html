@@ -63,12 +63,10 @@
       function renderName(data, type, row, meta) {
         if (type === "display") {
           return data.startsWith("[P] ") ?
-            `<div class="name" data-original-name="${data}"><div class="ui blue horizontal label">Profile</div>${data.substring(4)}</div>`
-          : `<div class="name" data-original-name="${data}"><div class="ui teal horizontal label">Permission Set</div>${data}</div>`;
+              `<div class="name" data-original-name="${data}"><div class="ui blue horizontal label">Profile</div>${data.substring(4)}</div>`
+            : `<div class="name" data-original-name="${data}"><div class="ui teal horizontal label">Permission Set</div>${data}</div>`;
         } else {
-          return data.startsWith("[P] ") ?
-            data
-            : `[PS] data`;
+          return data.startsWith("[P] ") ? data : `[PS] data`;
         }
       }
 
@@ -78,9 +76,11 @@
 
       function generateProfilePermissionSetDetailsHtml(tabId, data) {
         let topSection = `
-          <h2 class='ui header'>${data.name.startsWith("[P] ") ? 
-            `<div class="ui blue horizontal label">Profile</div>${data.name.substring(4)}` :
-            `<div class="ui teal horizontal label">Permission Set</div>${data.name}`}</h2>
+          <h2 class='ui header'>${
+            data.name.startsWith("[P] ") ?
+              `<div class="ui blue horizontal label">Profile</div>${data.name.substring(4)}`
+            : `<div class="ui teal horizontal label">Permission Set</div>${data.name}`
+          }</h2>
           <table class="ui very basic collapsing celled table">
             <tbody>
               <tr>
@@ -177,9 +177,7 @@
               true,
               {
                 data: getPermissionsData(data),
-                columns: [
-                  { title: "Permission" },
-                ],
+                columns: [{ title: "Permission" }],
               }
             );
           } else if ($.fn.dataTable.isDataTable(this)) {
@@ -196,10 +194,7 @@
               true,
               {
                 data: getObjectPermissionsData(data),
-                columns: [
-                  { title: "Object/Field" },
-                  { title: "Permissions" },
-                ],
+                columns: [{ title: "Object/Field" }, { title: "Permissions" }],
               }
             );
           } else if ($.fn.dataTable.isDataTable(this)) {
@@ -248,45 +243,49 @@
       });
 
       // Extract the functions for use in click handlers
-      const { displayDetails, addAndDisplayDetails, closeTab } = profilePermissionSetTabManager;
+      const { displayDetails, addAndDisplayDetails, closeTab } =
+        profilePermissionSetTabManager;
 
       function getUsersData(data) {
         const assignedUsers = [];
-        
+
         if (data.name.startsWith("[P] ")) {
           // This is a profile - find users with this profile
           const profileName = data.name.substring(4);
-          usersData.forEach(user => {
+          usersData.forEach((user) => {
             if (user.profile && user.profile.value === profileName) {
               assignedUsers.push([
                 user.username,
                 user.name,
                 user.email,
-                user.userType
+                user.userType,
               ]);
             }
           });
         } else {
           // This is a permission set - find users with this permission set
-          usersData.forEach(user => {
-            if (user.permissionSets && user.permissionSets.some(ps => ps.value === data.name)) {
+          usersData.forEach((user) => {
+            if (
+              user.permissionSets &&
+              user.permissionSets.some((ps) => ps.value === data.name)
+            ) {
               assignedUsers.push([
                 user.username,
                 user.name,
                 user.email,
-                user.userType
+                user.userType,
               ]);
             }
           });
         }
-        
+
         return assignedUsers;
       }
 
       function getPermissionsData(data) {
         // Get the permission indices for this profile/permission set
         const permissionIndices = permissionSetPermissions[data.name];
-        
+
         if (!permissionIndices) {
           return [];
         }
@@ -301,32 +300,34 @@
       function getObjectPermissionsData(data) {
         // Get the object permissions for this profile/permission set
         const objectPermissions = objectsPermissions[data.name];
-        
+
         if (!objectPermissions) {
           return [];
         }
 
         // Convert to the required format: [object/field, permissions]
         const result = [];
-        
-        objectPermissions.forEach(([objectIndex, objectPermissions, fieldPermissions]) => {
-          const object = objectsArray[objectIndex];
-          if (object) {
-            const objectName = object.o;
-            
-            // Add object-level permissions
-            result.push([objectName, objectPermissions]);
-            
-            // Add field-level permissions
-            fieldPermissions.forEach(([fieldIndex, fieldPermissions]) => {
-              const fieldName = object.fs[fieldIndex];
-              if (fieldName) {
-                const fieldKey = `${objectName}.${fieldName}`;
-                result.push([fieldKey, fieldPermissions]);
-              }
-            });
+
+        objectPermissions.forEach(
+          ([objectIndex, objectPermissions, fieldPermissions]) => {
+            const object = objectsArray[objectIndex];
+            if (object) {
+              const objectName = object.o;
+
+              // Add object-level permissions
+              result.push([objectName, objectPermissions]);
+
+              // Add field-level permissions
+              fieldPermissions.forEach(([fieldIndex, fieldPermissions]) => {
+                const fieldName = object.fs[fieldIndex];
+                if (fieldName) {
+                  const fieldKey = `${objectName}.${fieldName}`;
+                  result.push([fieldKey, fieldPermissions]);
+                }
+              });
+            }
           }
-        });
+        );
 
         return result;
       }
@@ -342,94 +343,110 @@
       // Generate the master table data
       function generateProfilesAndPermissionSetsData() {
         const result = [];
-        
+
         // Add profiles
         Object.keys(permissionSetPermissions).forEach((profileName) => {
           if (profileName.startsWith("[P] ")) {
             const permissionIndices = permissionSetPermissions[profileName];
             const objectPermissions = objectsPermissions[profileName];
-            
+
             // Count users assigned to this profile
-            const userCount = usersData.filter(user => 
-              user.profile && user.profile.value === profileName.substring(4)
+            const userCount = usersData.filter(
+              (user) =>
+                user.profile && user.profile.value === profileName.substring(4)
             ).length;
-            
+
             // Count objects and fields
             let objectCount = 0;
             let fieldCount = 0;
-            
+
             if (objectPermissions) {
               objectCount = objectPermissions.length;
-              objectPermissions.forEach(([objectIndex, objectPermissions, fieldPermissions]) => {
-                fieldCount += fieldPermissions.length;
-              });
+              objectPermissions.forEach(
+                ([objectIndex, objectPermissions, fieldPermissions]) => {
+                  fieldCount += fieldPermissions.length;
+                }
+              );
             }
-            
+
             result.push({
               name: profileName,
               type: "Profile",
               userCount: userCount,
               permissionCount: permissionIndices ? permissionIndices.length : 0,
               objectCount: objectCount,
-              fieldCount: fieldCount
+              fieldCount: fieldCount,
             });
           }
         });
-        
+
         // Add permission sets
         Object.keys(permissionSetPermissions).forEach((permissionSetName) => {
           if (!permissionSetName.startsWith("[P] ")) {
-            const permissionIndices = permissionSetPermissions[permissionSetName];
+            const permissionIndices =
+              permissionSetPermissions[permissionSetName];
             const objectPermissions = objectsPermissions[permissionSetName];
-            
+
             // Count users assigned to this permission set
-            const userCount = usersData.filter(user => 
-              user.permissionSets && user.permissionSets.some(ps => ps.value === permissionSetName)
+            const userCount = usersData.filter(
+              (user) =>
+                user.permissionSets &&
+                user.permissionSets.some((ps) => ps.value === permissionSetName)
             ).length;
-            
+
             // Count objects and fields
             let objectCount = 0;
             let fieldCount = 0;
-            
+
             if (objectPermissions) {
               objectCount = objectPermissions.length;
-              objectPermissions.forEach(([objectIndex, objectPermissions, fieldPermissions]) => {
-                fieldCount += fieldPermissions.length;
-              });
+              objectPermissions.forEach(
+                ([objectIndex, objectPermissions, fieldPermissions]) => {
+                  fieldCount += fieldPermissions.length;
+                }
+              );
             }
-            
+
             result.push({
               name: permissionSetName,
               type: "Permission Set",
               userCount: userCount,
               permissionCount: permissionIndices ? permissionIndices.length : 0,
               objectCount: objectCount,
-              fieldCount: fieldCount
+              fieldCount: fieldCount,
             });
           }
         });
-        
+
         return result;
       }
 
-      const profilesAndPermissionSetsData = generateProfilesAndPermissionSetsData();
+      const profilesAndPermissionSetsData =
+        generateProfilesAndPermissionSetsData();
 
       $(document).ready(function () {
-        initDataTableWithButtons("#masterTable", "Profiles and Permission Sets", true, true, {
-          data: profilesAndPermissionSetsData,
-          columns: [
-            { data: "name", render: renderName },
-            { data: "userCount" },
-            { data: "permissionCount" },
-            { data: "objectCount" },
-            { data: "fieldCount" },
-          ],
-        });
+        initDataTableWithButtons(
+          "#masterTable",
+          "Profiles and Permission Sets",
+          true,
+          true,
+          {
+            data: profilesAndPermissionSetsData,
+            columns: [
+              { data: "name", render: renderName },
+              { data: "userCount" },
+              { data: "permissionCount" },
+              { data: "objectCount" },
+              { data: "fieldCount" },
+            ],
+          }
+        );
 
         let clickTimer = null;
         $("#masterTable tbody").on("click", "tr", function () {
           const nameElement = $(this).find(".name");
-          const name = nameElement.attr("data-original-name") || nameElement.text();
+          const name =
+            nameElement.attr("data-original-name") || nameElement.text();
           if (clickTimer) {
             clearTimeout(clickTimer);
             clickTimer = null;
@@ -449,7 +466,8 @@
             clickTimer = null;
           }
           const nameElement = $(this).find(".name");
-          const name = nameElement.attr("data-original-name") || nameElement.text();
+          const name =
+            nameElement.attr("data-original-name") || nameElement.text();
           addAndDisplayDetails(name, true, false); // double-click
         });
 
@@ -459,4 +477,4 @@
       });
     </script>
   </body>
-</html> 
+</html>
