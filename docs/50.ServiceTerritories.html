@@ -1,20 +1,33 @@
-<html lang="en" style="padding: 20px" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<html
+  lang="en"
+  style="padding: 20px"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="shortcut icon" type="image/png" href="images/favicon.png" />
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.3/semantic.min.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/se/jszip-3.10.1/dt-2.0.7/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/cr-2.0.2/date-1.5.2/fc-5.0.0/fh-4.0.1/kt-2.12.0/r-3.0.2/rg-1.5.0/sc-2.4.2/sb-1.7.1/sp-2.3.1/datatables.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js">//</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.3/semantic.min.js">//</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js">//</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js">//</script>
-    <script src="https://cdn.datatables.net/v/se/jszip-3.10.1/dt-2.0.7/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/cr-2.0.2/date-1.5.2/fc-5.0.0/fh-4.0.1/kt-2.12.0/r-3.0.2/rg-1.5.0/sc-2.4.2/sb-1.7.1/sp-2.3.1/datatables.min.js">//</script>
-    <script type="text/javascript" src="script/cfg-tables.js">//</script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.3/semantic.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/v/se/jszip-3.10.1/dt-2.0.7/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/cr-2.0.2/date-1.5.2/fc-5.0.0/fh-4.0.1/kt-2.12.0/r-3.0.2/rg-1.5.0/sc-2.4.2/sb-1.7.1/sp-2.3.1/datatables.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.3/semantic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/v/se/jszip-3.10.1/dt-2.0.7/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/cr-2.0.2/date-1.5.2/fc-5.0.0/fh-4.0.1/kt-2.12.0/r-3.0.2/rg-1.5.0/sc-2.4.2/sb-1.7.1/sp-2.3.1/datatables.min.js"></script>
+    <script type="text/javascript" src="script/cfg-tables.js"></script>
+    <script type="text/javascript" src="50.ServiceTerritories.js"></script>
     <title>Service Territories</title>
   </head>
   <body>
-    <h1>Service Territory Summary</h1>
+    <h2 class="ui header">Service Territory Summary</h2>
     <table id="territories-summary" class="ui responsive celled table">
       <thead>
         <tr class="header">
@@ -28,7 +41,8 @@
         </tr>
       </thead>
     </table>
-    <h1>Service Territory Memberships</h1>
+
+    <h2>Service Territory Memberships</h2>
     <table id="territory-memberships" class="ui responsive celled table">
       <thead>
         <tr class="header">
@@ -38,199 +52,208 @@
         </tr>
       </thead>
     </table>
+    <p>
+      The territories are expressed as ref/unresolved ID immediately followed by
+      end date (day only) in parentheses for filtering purposes. For example:
+    </p>
+    <code>ServiceTerritory[Northern California](2024-05-14)</code>
+    <p>
+      That means that the following patterns can be used for filtering territory
+      assignment columns:
+    </p>
+    <div class="ui bulleted list">
+      <div class="item">
+        <code>()</code>: all resources where at least one territory assignment
+        is current (i.e. without an end date).
+      </div>
+      <div class="item">
+        <code>/\(.+\)</code>: all resources where at least one territory
+        assignment is expired.
+      </div>
+      <div class="item">
+        <code>[Northern California]()</code>: all resources with a current valid
+        assignment to Northern California.
+      </div>
+      <div class="item">
+        <code>\[Northern California\]\(.+\)</code>: all resources with expired
+        assignments to Northern California.
+      </div>
+    </div>
+
     <script>
-  const summaryData = [
-{ "name": "Central California", "parents": [ { "ref": "ServiceTerritory[Pacific US]", "value": "Pacific US" } ], "operatingHours": { "ref": "OperatingHours[Pacific Standard]", "value": "Pacific Standard" }, "primaryMemberCount": 0, "primaryOperatingHours": null, "secondaryMemberCount": 0, "secondaryOperatingHours": null },
-{ "name": "Central Heartland", "parents": [ { "ref": "ServiceTerritory[Central US]", "value": "Central US" } ], "operatingHours": { "ref": "OperatingHours[Central]", "value": "Central" }, "primaryMemberCount": 0, "primaryOperatingHours": null, "secondaryMemberCount": 0, "secondaryOperatingHours": null },
-{ "name": "Central US", "parents": [ ], "operatingHours": { "ref": "OperatingHours[Central]", "value": "Central" }, "primaryMemberCount": 0, "primaryOperatingHours": null, "secondaryMemberCount": 0, "secondaryOperatingHours": null },
-{ "name": "Eastern US", "parents": [ ], "operatingHours": { "ref": "OperatingHours[Eastern Standard]", "value": "Eastern Standard" }, "primaryMemberCount": 28, "primaryOperatingHours": [ { "ref": "OperatingHours[Eastern Standard]", "value": "Eastern Standard" } ], "secondaryMemberCount": 0, "secondaryOperatingHours": null },
-{ "name": "Great Lakes", "parents": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" } ], "operatingHours": { "ref": "OperatingHours[Eastern Standard]", "value": "Eastern Standard" }, "primaryMemberCount": 0, "primaryOperatingHours": null, "secondaryMemberCount": 0, "secondaryOperatingHours": null },
-{ "name": "Gulf States", "parents": [ { "ref": "ServiceTerritory[Central US]", "value": "Central US" } ], "operatingHours": { "ref": "OperatingHours[Central]", "value": "Central" }, "primaryMemberCount": 0, "primaryOperatingHours": null, "secondaryMemberCount": 0, "secondaryOperatingHours": null },
-{ "name": "Metro NY\/NJ", "parents": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" } ], "operatingHours": { "ref": "OperatingHours[Eastern Standard]", "value": "Eastern Standard" }, "primaryMemberCount": 13, "primaryOperatingHours": [ ], "secondaryMemberCount": 0, "secondaryOperatingHours": null },
-{ "name": "Mid-Atlantic\/Southern NJ", "parents": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" } ], "operatingHours": { "ref": "OperatingHours[Southern New Jersey]", "value": "Southern New Jersey" }, "primaryMemberCount": 15, "primaryOperatingHours": [ ], "secondaryMemberCount": 0, "secondaryOperatingHours": null },
-{ "name": "Mid-Atlantic", "parents": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" } ], "operatingHours": { "ref": "OperatingHours[Eastern Standard]", "value": "Eastern Standard" }, "primaryMemberCount": 0, "primaryOperatingHours": null, "secondaryMemberCount": 0, "secondaryOperatingHours": null },
-{ "name": "Mountain US", "parents": [ ], "operatingHours": { "ref": "OperatingHours[Mountain]", "value": "Mountain" }, "primaryMemberCount": 0, "primaryOperatingHours": null, "secondaryMemberCount": 0, "secondaryOperatingHours": null },
-{ "name": "New England", "parents": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" } ], "operatingHours": { "ref": "OperatingHours[New England]", "value": "New England" }, "primaryMemberCount": 9, "primaryOperatingHours": [ { "ref": "OperatingHours[New England]", "value": "New England" } ], "secondaryMemberCount": 0, "secondaryOperatingHours": null },
-{ "name": "Northern California", "parents": [ { "ref": "ServiceTerritory[Pacific US]", "value": "Pacific US" } ], "operatingHours": { "ref": "OperatingHours[Northern California]", "value": "Northern California" }, "primaryMemberCount": 12, "primaryOperatingHours": [ ], "secondaryMemberCount": 0, "secondaryOperatingHours": null },
-{ "name": "Northern Heartland", "parents": [ { "ref": "ServiceTerritory[Central US]", "value": "Central US" } ], "operatingHours": { "ref": "OperatingHours[Central]", "value": "Central" }, "primaryMemberCount": 4, "primaryOperatingHours": [ ], "secondaryMemberCount": 0, "secondaryOperatingHours": null },
-{ "name": "Northern Mountain", "parents": [ { "ref": "ServiceTerritory[Mountain US]", "value": "Mountain US" } ], "operatingHours": { "ref": "OperatingHours[Mountain]", "value": "Mountain" }, "primaryMemberCount": 0, "primaryOperatingHours": null, "secondaryMemberCount": 0, "secondaryOperatingHours": null },
-{ "name": "Northern New Jersey", "parents": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" } ], "operatingHours": { "ref": "OperatingHours[Eastern Standard]", "value": "Eastern Standard" }, "primaryMemberCount": 0, "primaryOperatingHours": null, "secondaryMemberCount": 0, "secondaryOperatingHours": null },
-{ "name": "Office", "parents": [ { "ref": "ServiceTerritory[Team Office]", "value": "Team Office" } ], "operatingHours": { "ref": "OperatingHours[Office Operating Hours]", "value": "Office Operating Hours" }, "primaryMemberCount": 12, "primaryOperatingHours": [ ], "secondaryMemberCount": 0, "secondaryOperatingHours": null },
-{ "name": "Pacific US", "parents": [ ], "operatingHours": { "ref": "OperatingHours[Pacific Standard]", "value": "Pacific Standard" }, "primaryMemberCount": 14, "primaryOperatingHours": [ { "ref": "OperatingHours[Pacific Standard]", "value": "Pacific Standard" } ], "secondaryMemberCount": 0, "secondaryOperatingHours": null },
-{ "name": "Southeast US", "parents": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" } ], "operatingHours": { "ref": "OperatingHours[Eastern Standard]", "value": "Eastern Standard" }, "primaryMemberCount": 0, "primaryOperatingHours": null, "secondaryMemberCount": 0, "secondaryOperatingHours": null },
-{ "name": "Southern California", "parents": [ { "ref": "ServiceTerritory[Pacific US]", "value": "Pacific US" } ], "operatingHours": { "ref": "OperatingHours[Southern California]", "value": "Southern California" }, "primaryMemberCount": 10, "primaryOperatingHours": [ { "ref": "OperatingHours[Southern California]", "value": "Southern California" } ], "secondaryMemberCount": 0, "secondaryOperatingHours": null },
-{ "name": "Southwest US", "parents": [ { "ref": "ServiceTerritory[Mountain US]", "value": "Mountain US" } ], "operatingHours": { "ref": "OperatingHours[Mountain]", "value": "Mountain" }, "primaryMemberCount": 0, "primaryOperatingHours": null, "secondaryMemberCount": 0, "secondaryOperatingHours": null },
-{ "name": "Team Office", "parents": [ ], "operatingHours": { "ref": "OperatingHours[Office Operating Hours]", "value": "Office Operating Hours" }, "primaryMemberCount": 0, "primaryOperatingHours": null, "secondaryMemberCount": 0, "secondaryOperatingHours": null },
-{ "name": "Upstate NY", "parents": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" } ], "operatingHours": { "ref": "OperatingHours[Eastern Standard]", "value": "Eastern Standard" }, "primaryMemberCount": 5, "primaryOperatingHours": [ ], "secondaryMemberCount": 0, "secondaryOperatingHours": null }
-];
+      /**
+       * Renders a member count as a clickable link that, when clicked,
+       * clears all filters in #territory-memberships, sets the filter for the
+       * appropriate column to the given territory name, and focuses the table.
+       * @param {string} tableId - Table selector.
+       * @param {number} columnIndex - The index of the column to filter on.
+       * @returns {function} - DataTables render function.
+       */
+      function renderMemberCount(tableId, columnIndex) {
+        return function (data, type, row, meta) {
+          if (type !== "display" || !row || !row.name || data === 0)
+            return data;
 
-  const membershipData = [
-{ "name": "Adam Galster (agalster@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Metro NY\/NJ]", "value": "Metro NY\/NJ" } ], "secondaryTerritories": null },
-{ "name": "Adam Nettles (anettles@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Mid-Atlantic\/Southern NJ]", "value": "Mid-Atlantic\/Southern NJ" } ], "secondaryTerritories": null },
-{ "name": "Alexandra Sheppard (asheppard@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Metro NY\/NJ]", "value": "Metro NY\/NJ" } ], "secondaryTerritories": null },
-{ "name": "Andereh Moshi (amoshi@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Northern California]", "value": "Northern California" }, { "ref": "ServiceTerritory[Pacific US]", "value": "Pacific US" } ], "secondaryTerritories": null },
-{ "name": "Andrew Pineda (apineda@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Northern California]", "value": "Northern California" } ], "secondaryTerritories": null },
-{ "name": "Anthony Brusca (abrusca@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" } ], "secondaryTerritories": null },
-{ "name": "Anthony Hom (ahom@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" }, { "ref": "ServiceTerritory[Mid-Atlantic\/Southern NJ]", "value": "Mid-Atlantic\/Southern NJ" }, { "ref": "ServiceTerritory[Office]", "value": "Office" } ], "secondaryTerritories": null },
-{ "name": "Austin Jarvis (ajarvis@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Upstate NY]", "value": "Upstate NY" } ], "secondaryTerritories": null },
-{ "name": "Ben Sheldon (bsheldon@max-solar.com.maxqa)", "primaryTerritories": null, "secondaryTerritories": null },
-{ "name": "Benjamin Caschera (bcaschera@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Northern California]", "value": "Northern California" }, { "ref": "ServiceTerritory[Pacific US]", "value": "Pacific US" } ], "secondaryTerritories": null },
-{ "name": "Birol Ruzehaji (bruzehaji@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Office]", "value": "Office" } ], "secondaryTerritories": null },
-{ "name": "Bleon Meta (bmeta@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Mid-Atlantic\/Southern NJ]", "value": "Mid-Atlantic\/Southern NJ" } ], "secondaryTerritories": null },
-{ "name": "Bradley Alonso (balonso@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Pacific US]", "value": "Pacific US" }, { "ref": "ServiceTerritory[Southern California]", "value": "Southern California" } ], "secondaryTerritories": null },
-{ "name": "Brian Baez (bbaez@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Mid-Atlantic\/Southern NJ]", "value": "Mid-Atlantic\/Southern NJ" } ], "secondaryTerritories": null },
-{ "name": "Bryan McKinney (bmckinney@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Upstate NY]", "value": "Upstate NY" } ], "secondaryTerritories": null },
-{ "name": "Chris Castro (ccastro@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Southern California]", "value": "Southern California" } ], "secondaryTerritories": null },
-{ "name": "Chris Lavallee (clavallee@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[New England]", "value": "New England" } ], "secondaryTerritories": null },
-{ "name": "Curtis Davis (cdavis@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" }, { "ref": "ServiceTerritory[Mid-Atlantic\/Southern NJ]", "value": "Mid-Atlantic\/Southern NJ" } ], "secondaryTerritories": null },
-{ "name": "Daniel Ahrens (dahrens@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" }, { "ref": "ServiceTerritory[Office]", "value": "Office" } ], "secondaryTerritories": null },
-{ "name": "Daniel Amado (damado@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Pacific US]", "value": "Pacific US" }, { "ref": "ServiceTerritory[Southern California]", "value": "Southern California" } ], "secondaryTerritories": null },
-{ "name": "Daniel Booker (dbooker@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Mid-Atlantic\/Southern NJ]", "value": "Mid-Atlantic\/Southern NJ" } ], "secondaryTerritories": null },
-{ "name": "Daniel Gutierrez (dgutierrez@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Southern California]", "value": "Southern California" } ], "secondaryTerritories": null },
-{ "name": "Daniel Rodriguez (drodriguez@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Pacific US]", "value": "Pacific US" }, { "ref": "ServiceTerritory[Southern California]", "value": "Southern California" } ], "secondaryTerritories": null },
-{ "name": "David Buyea (dbuyea@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Metro NY\/NJ]", "value": "Metro NY\/NJ" }, { "ref": "ServiceTerritory[Upstate NY]", "value": "Upstate NY" } ], "secondaryTerritories": null },
-{ "name": "David Cassels (dcassels@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Mid-Atlantic\/Southern NJ]", "value": "Mid-Atlantic\/Southern NJ" } ], "secondaryTerritories": null },
-{ "name": "David Galan (dgalan@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Northern California]", "value": "Northern California" } ], "secondaryTerritories": null },
-{ "name": "David Thomas (dthomas@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" }, { "ref": "ServiceTerritory[Metro NY\/NJ]", "value": "Metro NY\/NJ" } ], "secondaryTerritories": null },
-{ "name": "Dean Feinstein (dfeinstein@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" }, { "ref": "ServiceTerritory[Metro NY\/NJ]", "value": "Metro NY\/NJ" } ], "secondaryTerritories": null },
-{ "name": "Dispatcher (bruzehaji@max-solar.com.maxqa)", "primaryTerritories": null, "secondaryTerritories": null },
-{ "name": "Donte Matte (dmatte@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Northern California]", "value": "Northern California" } ], "secondaryTerritories": null },
-{ "name": "Dotan Halevy (dhalevy@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" }, { "ref": "ServiceTerritory[Mid-Atlantic\/Southern NJ]", "value": "Mid-Atlantic\/Southern NJ" } ], "secondaryTerritories": null },
-{ "name": "Eric Nichio (enichio@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" }, { "ref": "ServiceTerritory[New England]", "value": "New England" } ], "secondaryTerritories": null },
-{ "name": "Ernesto Moreno (emoreno@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Northern California]", "value": "Northern California" }, { "ref": "ServiceTerritory[Pacific US]", "value": "Pacific US" } ], "secondaryTerritories": null },
-{ "name": "Frank Jakubowski (fjakubowski@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Mid-Atlantic\/Southern NJ]", "value": "Mid-Atlantic\/Southern NJ" } ], "secondaryTerritories": null },
-{ "name": "Gilbert Rosette (grosette@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Pacific US]", "value": "Pacific US" } ], "secondaryTerritories": null },
-{ "name": "Gregory Dupuis (gdupuis@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" }, { "ref": "ServiceTerritory[New England]", "value": "New England" } ], "secondaryTerritories": null },
-{ "name": "Harold Vivas (hvivas@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" }, { "ref": "ServiceTerritory[Metro NY\/NJ]", "value": "Metro NY\/NJ" } ], "secondaryTerritories": null },
-{ "name": "Hector Cadavid (hcadavid@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" }, { "ref": "ServiceTerritory[Metro NY\/NJ]", "value": "Metro NY\/NJ" } ], "secondaryTerritories": null },
-{ "name": "Hector Hernandez (hhernandez@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Mid-Atlantic\/Southern NJ]", "value": "Mid-Atlantic\/Southern NJ" } ], "secondaryTerritories": null },
-{ "name": "Ivan Coellar (icoellar@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" }, { "ref": "ServiceTerritory[Metro NY\/NJ]", "value": "Metro NY\/NJ" } ], "secondaryTerritories": null },
-{ "name": "James Anthony (janthony@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[New England]", "value": "New England" }, { "ref": "ServiceTerritory[Office]", "value": "Office" } ], "secondaryTerritories": null },
-{ "name": "Jason Burton (jburton@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" }, { "ref": "ServiceTerritory[Office]", "value": "Office" } ], "secondaryTerritories": null },
-{ "name": "Jason Case (jcase@max-solar.com.maxqa)", "primaryTerritories": null, "secondaryTerritories": null },
-{ "name": "Jay Patel (jpatel@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" }, { "ref": "ServiceTerritory[Office]", "value": "Office" } ], "secondaryTerritories": null },
-{ "name": "Jesse Sanchez (jsanchez@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Northern California]", "value": "Northern California" } ], "secondaryTerritories": null },
-{ "name": "Jonathan Brown (jbrown@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Upstate NY]", "value": "Upstate NY" } ], "secondaryTerritories": null },
-{ "name": "Jose Anselmo (janselmo@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Southern California]", "value": "Southern California" } ], "secondaryTerritories": null },
-{ "name": "Jose Hernandez (jhernandez@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Southern California]", "value": "Southern California" } ], "secondaryTerritories": null },
-{ "name": "Joshua Cabrera (jcabrera@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" }, { "ref": "ServiceTerritory[Metro NY\/NJ]", "value": "Metro NY\/NJ" } ], "secondaryTerritories": null },
-{ "name": "Jozef Magiera (jmagiera@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Office]", "value": "Office" } ], "secondaryTerritories": null },
-{ "name": "Kenny Fish (kfish@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Upstate NY]", "value": "Upstate NY" } ], "secondaryTerritories": null },
-{ "name": "Khanh Trinh (ktrinh@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Northern California]", "value": "Northern California" }, { "ref": "ServiceTerritory[Pacific US]", "value": "Pacific US" } ], "secondaryTerritories": null },
-{ "name": "Kristoffer Vieira (kvieira@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[New England]", "value": "New England" } ], "secondaryTerritories": null },
-{ "name": "Levy Van Winkle (lvanwinkle@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Office]", "value": "Office" }, { "ref": "ServiceTerritory[Pacific US]", "value": "Pacific US" } ], "secondaryTerritories": null },
-{ "name": "Luke Bennett (lbennett@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" }, { "ref": "ServiceTerritory[Metro NY\/NJ]", "value": "Metro NY\/NJ" } ], "secondaryTerritories": null },
-{ "name": "Matthew Deisenroth (mdeisenroth@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Northern Heartland]", "value": "Northern Heartland" } ], "secondaryTerritories": null },
-{ "name": "Michael Kerrigan (mkerrigan@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Northern Heartland]", "value": "Northern Heartland" } ], "secondaryTerritories": null },
-{ "name": "Michael Schaeffer (mschaeffer@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Mid-Atlantic\/Southern NJ]", "value": "Mid-Atlantic\/Southern NJ" } ], "secondaryTerritories": null },
-{ "name": "Mike Williams (mwilliams@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Northern California]", "value": "Northern California" }, { "ref": "ServiceTerritory[Pacific US]", "value": "Pacific US" } ], "secondaryTerritories": null },
-{ "name": "Nate Suresh (nsuresh@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" }, { "ref": "ServiceTerritory[Office]", "value": "Office" } ], "secondaryTerritories": null },
-{ "name": "Noor Ali (nali@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Northern Heartland]", "value": "Northern Heartland" } ], "secondaryTerritories": null },
-{ "name": "Patrick McPhillips (pmcphillips@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" }, { "ref": "ServiceTerritory[Office]", "value": "Office" } ], "secondaryTerritories": null },
-{ "name": "Peter Alonso (palonso@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Pacific US]", "value": "Pacific US" }, { "ref": "ServiceTerritory[Southern California]", "value": "Southern California" } ], "secondaryTerritories": null },
-{ "name": "Ramiro Cabezas (rcabezas@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Southern California]", "value": "Southern California" } ], "secondaryTerritories": null },
-{ "name": "Rene Topete (rtopete@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Pacific US]", "value": "Pacific US" }, { "ref": "ServiceTerritory[Southern California]", "value": "Southern California" } ], "secondaryTerritories": null },
-{ "name": "Richard Crawford (rcrawford@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" }, { "ref": "ServiceTerritory[New England]", "value": "New England" } ], "secondaryTerritories": null },
-{ "name": "Richard Vargas (rvargas@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Northern Heartland]", "value": "Northern Heartland" } ], "secondaryTerritories": null },
-{ "name": "Rodney Faridi (rfaridi@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Northern California]", "value": "Northern California" }, { "ref": "ServiceTerritory[Pacific US]", "value": "Pacific US" } ], "secondaryTerritories": null },
-{ "name": "Samuel Muro (smuro@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Northern California]", "value": "Northern California" } ], "secondaryTerritories": null },
-{ "name": "Sandeep Suresh (ssuresh@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" }, { "ref": "ServiceTerritory[Office]", "value": "Office" } ], "secondaryTerritories": null },
-{ "name": "Scott Trembay (stremblay@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" }, { "ref": "ServiceTerritory[New England]", "value": "New England" } ], "secondaryTerritories": null },
-{ "name": "Sierra Ethridge (sethridge@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" }, { "ref": "ServiceTerritory[Metro NY\/NJ]", "value": "Metro NY\/NJ" } ], "secondaryTerritories": null },
-{ "name": "Sione Mafi (smafi@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Northern California]", "value": "Northern California" }, { "ref": "ServiceTerritory[Pacific US]", "value": "Pacific US" } ], "secondaryTerritories": null },
-{ "name": "Stephen Lavin (slavin@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" } ], "secondaryTerritories": null },
-{ "name": "Steve Cedola (scedola@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Mid-Atlantic\/Southern NJ]", "value": "Mid-Atlantic\/Southern NJ" } ], "secondaryTerritories": null },
-{ "name": "Steven Hurley (shurley@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Metro NY\/NJ]", "value": "Metro NY\/NJ" } ], "secondaryTerritories": null },
-{ "name": "Subcontractor (rmartin@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Office]", "value": "Office" } ], "secondaryTerritories": null },
-{ "name": "Tanner Jones (tjones@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[New England]", "value": "New England" } ], "secondaryTerritories": null },
-{ "name": "Taylor Picillo (tpicillo@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" }, { "ref": "ServiceTerritory[Mid-Atlantic\/Southern NJ]", "value": "Mid-Atlantic\/Southern NJ" } ], "secondaryTerritories": null },
-{ "name": "Timothy Masselle (tmasselle@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" }, { "ref": "ServiceTerritory[Mid-Atlantic\/Southern NJ]", "value": "Mid-Atlantic\/Southern NJ" } ], "secondaryTerritories": null },
-{ "name": "Timothy Zmuda (tzmuda@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" }, { "ref": "ServiceTerritory[New England]", "value": "New England" } ], "secondaryTerritories": null },
-{ "name": "Zachary Anastasio (zanastasio@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" }, { "ref": "ServiceTerritory[Metro NY\/NJ]", "value": "Metro NY\/NJ" } ], "secondaryTerritories": null },
-{ "name": "Zachery Grunwerg (zgrunwerg@max-solar.com.maxqa)", "primaryTerritories": [ { "ref": "ServiceTerritory[Eastern US]", "value": "Eastern US" }, { "ref": "ServiceTerritory[Mid-Atlantic\/Southern NJ]", "value": "Mid-Atlantic\/Southern NJ" } ], "secondaryTerritories": null }
-];
+          // row.name is the territory name
+          const territoryName = row.name;
 
-  /**
-    * Renders a member count as a clickable link that, when clicked,
-    * clears all filters in #territory-memberships, sets the filter for the
-    * appropriate column to the given territory name, and focuses the table.
-    * @param {string} tableId - Table selector.
-    * @param {number} columnIndex - The index of the column to filter on.
-    * @returns {function} - DataTables render function.
-    */
-  function renderMemberCount(tableId, columnIndex) {
-    return function (data, type, row, meta) {
-      if (type !== 'display' || !row || !row.name || data === 0) return data;
+          // Escape for HTML
+          const safeName = String(territoryName).replace(/"/g, "&quot;");
 
-      // row.name is the territory name
-      const territoryName = row.name;
+          return `<a href="#" onclick="
+            clearAllFilters('${tableId}');
+            setColumnFilter('${tableId}', ${columnIndex}, '[${safeName}]');
+            scrollTableIntoView('${tableId}');
+            return false;
+          ">${data}</a>`;
+        };
+      }
 
-      // Escape for HTML
-      const safeName = String(territoryName).replace(/"/g, '&quot;');
+      function renderTerritoryAssignment(data, type) {
+        if (type === "display") {
+          if (data && typeof data === "object") {
+            if (data.ref && data.endDate === undefined) {
+              return `<div class="ui green label">${data.value}` + "</div>";
+            } else if (data.ref) {
+              return `<div class="ui basic green label">${data.value}<div class="detail">${data.endDate.substring(0, 10)}</div></div>`;
+            } else if (data.unresolved && data.endDate === undefined) {
+              return `<div class="ui red label">${data.unresolved}</div>`;
+            } else if (data.unresolved) {
+              return `<div class="ui basic red label">${data.unresolved}<div class="detail">${data.endDate.substring(0, 10)}</div></div>`;
+            } else if (data.value) {
+              return `<div class="ui grey label">${data.value}</div>`;
+            } else {
+              return `<div class="ui label">&lt;empty></div>`;
+            }
+          }
+        } else {
+          return (
+            (data.ref ?? data.unresolved ?? data.value) +
+            `(${data.endDate?.substring(0, 10) ?? ""})`
+          );
+        }
+      }
 
-      return `<a href="#" onclick="
-        clearAllFilters('${tableId}');
-        setColumnFilter('${tableId}', ${columnIndex}, '/\\\\[${safeName}\\\\]');
-        scrollTableIntoView('${tableId}');
-        return false;
-      ">${data}</a>`;
-    };
-  }
+      function renderTerritoryAssignments(
+        includeType,
+        topClasses,
+        wrapRef,
+        divider
+      ) {
+        const wrapUsed =
+          wrapRef ?? ((item) => `<div class='item'>${item}</div>`);
+        const header = `<div class="ui ${topClasses ?? "list"}">`;
+        const dividerUsed = divider ?? "";
+        return function (data, type) {
+          if (Array.isArray(data) && data.length > 0) {
+            if (type === "display") {
+              return (
+                header +
+                data
+                  .map((item) => renderTerritoryAssignment(item, "display"))
+                  .map(wrapUsed)
+                  .join(dividerUsed) +
+                "</div>"
+              );
+            } else {
+              return data
+                .map((item) => renderTerritoryAssignment(item, type))
+                .join("||");
+            }
+          }
+          return null;
+        };
+      }
 
-  $( document ).ready( function ()
-    {
-      initDataTableWithButtons(
-        '#territories-summary',
-        'Service Territory Summary',
-        true,
-        true,
-        {
-          data: summaryData,
-          columns: [
-            { data: 'name', title: 'Name' },
-            { data: 'parents', title: 'Parents',
-              render: renderXoomReferences(false, 'breadcrumb', (item) => item, '<span class="divider">/</span>') },
-            { data: 'operatingHours', title: 'Operating hours', render: renderXoomReference(false) },
-            { data: 'primaryMemberCount', title: 'Primary members', render: renderMemberCount('#territory-memberships', 1) },
-            { data: 'primaryOperatingHours', title: 'Primary op hours', render: renderXoomReferences(false) },
-            { data: 'secondaryMemberCount', title: 'Secondary members', render: renderMemberCount('#territory-memberships', 2) },
-            { data: 'secondaryOperatingHours', title: 'Secondary op hours', render: renderXoomReferences(false) }
-          ],
-          columnDefs: [
-            {
-              targets: [1, 2, 4, 6],
-              type: 'html',
-            },
-          ],
-          pageLength: 20,
-          lengthMenu: [20, 40, 70, 100]
-        }, true,
-      );
+      $(document).ready(function () {
+        initDataTableWithButtons(
+          "#territories-summary",
+          "Service Territory Summary",
+          true,
+          true,
+          {
+            data: summaryData,
+            columns: [
+              { data: "name", title: "Name" },
+              {
+                data: "parents",
+                title: "Parents",
+                render: renderXoomReferences(
+                  false,
+                  "breadcrumb",
+                  (item) => item,
+                  '<span class="divider">/</span>'
+                ),
+              },
+              {
+                data: "operatingHours",
+                title: "Operating hours",
+                render: renderXoomReference(false),
+              },
+              {
+                data: "primaryMemberCount",
+                title: "Primary members",
+                render: renderMemberCount("#territory-memberships", 1),
+              },
+              {
+                data: "primaryOperatingHours",
+                title: "Primary op hours",
+                render: renderXoomReferences(false),
+              },
+              {
+                data: "secondaryMemberCount",
+                title: "Secondary members",
+                render: renderMemberCount("#territory-memberships", 2),
+              },
+              {
+                data: "secondaryOperatingHours",
+                title: "Secondary op hours",
+                render: renderXoomReferences(false),
+              },
+            ],
+            columnDefs: [
+              {
+                targets: [1, 2, 4, 6],
+                type: "html",
+              },
+            ],
+            pageLength: 20,
+            lengthMenu: [20, 40, 70, 100],
+          },
+          true
+        );
 
-      initDataTableWithButtons(
-        '#territory-memberships',
-        'Service Territory Memberships',
-        true,
-        true,
-        {
-          data: membershipData,
-          columns: [
-            { data: 'name', title: 'Name' },
-            { data: 'primaryTerritories', title: 'Primary territories', render: renderXoomReferences(false) },
-            { data: 'secondaryTerritories', title: 'Secondary territories', render: renderXoomReferences(false) }
-          ],
-          columnDefs: [
-            {
-              targets: [1, 2],
-              type: 'html',
-            },
-          ],
-          pageLength: 20,
-          lengthMenu: [20, 40, 70, 100]
-        },
-      );
-
-    }
-  );</script>
+        initDataTableWithButtons(
+          "#territory-memberships",
+          "Service Territory Memberships",
+          true,
+          true,
+          {
+            data: membershipData,
+            columns: [
+              { data: "name", title: "Name" },
+              {
+                data: "primaryTerritories",
+                title: "Primary territories",
+                render: renderTerritoryAssignments(false),
+              },
+              {
+                data: "secondaryTerritories",
+                title: "Secondary territories",
+                render: renderTerritoryAssignments(false),
+              },
+            ],
+            columnDefs: [
+              {
+                targets: [1, 2],
+                type: "html",
+              },
+            ],
+            pageLength: 20,
+            lengthMenu: [20, 40, 70, 100],
+          }
+        );
+      });
+    </script>
   </body>
 </html>
