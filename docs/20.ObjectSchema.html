@@ -40,6 +40,8 @@
           <th>Name</th>
           <th>Label</th>
           <th>Key Prefix</th>
+          <th>Fields</th>
+          <th>Validation Rules</th>
           <th>CustomObject</th>
         </tr>
       </thead>
@@ -75,6 +77,24 @@
           );
         } else {
           return data;
+        }
+      }
+
+      function renderFieldCount(data, type, row, meta) {
+        const count = row.fields ? row.fields.length : 0;
+        if (type === "display") {
+          return count;
+        } else {
+          return count;
+        }
+      }
+
+      function renderValidationRuleCount(data, type, row, meta) {
+        const count = row.validationRules ? row.validationRules.length : 0;
+        if (type === "display") {
+          return count;
+        } else {
+          return count;
         }
       }
 
@@ -215,13 +235,9 @@
 
         let fieldsSectionFooter = "</tbody></table>";
 
-        let validationRulesSection =
-          (
-            data.validationRules === undefined ||
-            data.validationRules.length === 0
-          ) ?
-            ""
-          : `<h3 class='ui header'>Validation Rules</h3>
+        let validationRulesSection = "";
+        if (data.validationRules && data.validationRules.length > 0) {
+          validationRulesSection = `<h3 class='ui header'>Validation Rules</h3>
           <table id='${tabId}-validation-rules-table' class="ui celled table">
             <thead>
               <tr class="header">
@@ -234,6 +250,7 @@
               </tr>
             </thead>
           </table>`;
+        }
 
         return (
           topSection +
@@ -352,6 +369,8 @@
               { data: "name", render: renderObjectName },
               { data: "label" },
               { data: "keyPrefix" },
+              { data: null, render: renderFieldCount },
+              { data: null, render: renderValidationRuleCount },
               { data: "customObject" },
             ],
           }
