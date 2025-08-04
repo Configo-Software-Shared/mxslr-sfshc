@@ -67,6 +67,17 @@
         }
       }
 
+      function renderValidationRuleName(data, type, row, meta) {
+        if (type === "display") {
+          return (
+            `<div class="name">${data}</div>` +
+            (row.active ? `<div class="ui green label">active</div>` : "")
+          );
+        } else {
+          return data;
+        }
+      }
+
       // Object Schema specific content generation
       function generateObjectDetailsHtml(tabId, data) {
         let keyPrefixSection = "";
@@ -267,15 +278,25 @@
                 {
                   data: data.validationRules,
                   columns: [
-                    { data: "name" },
-                    { data: "active" },
-                    { data: "description" },
+                    { data: "name", render: renderValidationRuleName },
+                    { data: "active", type: "boolean", visible: false },
+                    {
+                      data: "description",
+                      type: "string",
+                      visible: false,
+                    },
                     {
                       data: "errorConditionFormula",
                       render: renderSalesforceFormula(true, true),
                     },
-                    { data: "errorDisplayField" },
-                    { data: "errorMessage" },
+                    {
+                      data: "errorDisplayField",
+                      type: "string",
+                    },
+                    {
+                      data: "errorMessage",
+                      type: "string",
+                    },
                   ],
                   pageLength: 50,
                 }
