@@ -20,6 +20,7 @@
     <script src="https://cdn.datatables.net/v/se/jszip-3.10.1/dt-2.0.7/b-3.0.2/b-colvis-3.0.2/b-html5-3.0.2/b-print-3.0.2/cr-2.0.2/date-1.5.2/fc-5.0.0/fh-4.0.1/kt-2.12.0/r-3.0.2/rg-1.5.0/sc-2.4.2/sb-1.7.1/sp-2.3.1/datatables.min.js"></script>
     <script type="text/javascript" src="script/cfg-tables.js"></script>
     <script type="text/javascript" src="script/cfg-tabs.js"></script>
+    <script type="text/javascript" src="script/cfg-sfdc-tokens.js"></script>
     <script type="text/javascript" src="20.ObjectSchema.js"></script>
     <title>Object Schema</title>
     <style>
@@ -203,8 +204,32 @@
 
         let fieldsSectionFooter = "</tbody></table>";
 
+        let validationRulesSection =
+          (
+            data.validationRules === undefined ||
+            data.validationRules.length === 0
+          ) ?
+            ""
+          : `<h3 class='ui header'>Validation Rules</h3>
+          <table id='${tabId}-validation-rules-table' class="ui celled table">
+            <thead>
+              <tr class="header">
+                <th>Name</th>
+                <th>Active</th>
+                <th>Description</th>
+                <th>Formula</th>
+                <th>Display Field</th>
+                <th>Message</th>
+              </tr>
+            </thead>
+          </table>`;
+
         return (
-          topSection + fieldsSectionHeader + fieldsSection + fieldsSectionFooter
+          topSection +
+          fieldsSectionHeader +
+          fieldsSection +
+          fieldsSectionFooter +
+          validationRulesSection
         );
       }
 
@@ -230,17 +255,46 @@
             $(this).DataTable().columns.adjust();
           }
         });
+
+        if (data.validationRules && data.validationRules.length > 0) {
+          $(`#${tabId}-validation-rules-table`).each(function () {
+            if ($.fn.dataTable && !$.fn.dataTable.isDataTable(this)) {
+              initDataTableWithButtons(
+                `#${this.id}`,
+                `Validation Rules for ${data.name}`,
+                true,
+                true,
+                {
+                  data: data.validationRules,
+                  columns: [
+                    { data: "name" },
+                    { data: "active" },
+                    { data: "description" },
+                    {
+                      data: "errorConditionFormula",
+                      render: renderSalesforceFormula(true, true),
+                    },
+                    { data: "errorDisplayField" },
+                    { data: "errorMessage" },
+                  ],
+                  pageLength: 50,
+                }
+              );
+            } else if ($.fn.DataTable.isDataTable(this)) {
+              $(this).DataTable().columns.adjust();
+            }
+          });
+        }
       }
 
       function cleanupObjectDetailsDataTables(tabId) {
-        const tableSelector = `#${tabId}-fields-table`;
-        const dataTable =
-          $.fn.DataTable.isDataTable(tableSelector) ?
-            $(tableSelector).DataTable()
-          : null;
-        if (dataTable) {
-          dataTable.destroy();
-        }
+        [`#${tabId}-fields-table`, `#${tabId}-validation-rules-table`].map(
+          (selector) => {
+            if ($.fn.DataTable.isDataTable(selector)) {
+              $(selector).DataTable().destroy();
+            }
+          }
+        );
       }
 
       // Create tabbed details manager for object schema
