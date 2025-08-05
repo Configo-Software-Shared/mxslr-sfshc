@@ -161,8 +161,10 @@
             </tbody>
           </table>`;
 
+        let linksSection = `<div class="ui horizontal list"><div class="item"><a href="#${tabId}-fields">Fields</a></div>`;
+
         let fieldsSectionHeader = `
-          <h3 class='ui header'>Fields</h3>
+          <h3 class='ui header' id='${tabId}-fields'>Fields</h3>
           <table id='${tabId}-fields-table' class="ui celled table">
             <thead>
               <tr class="header">
@@ -237,7 +239,9 @@
 
         let validationRulesSection = "";
         if (data.validationRules && data.validationRules.length > 0) {
-          validationRulesSection = `<h3 class='ui header'>Validation Rules</h3>
+          linksSection += `<div class="item"><a href="#${tabId}-validation-rules">Validation Rules</a></div>`;
+
+          validationRulesSection = `<h3 class='ui header' id='${tabId}-validation-rules'>Validation Rules</h3>
           <table id='${tabId}-validation-rules-table' class="ui celled table">
             <thead>
               <tr class="header">
@@ -252,8 +256,11 @@
           </table>`;
         }
 
+        linksSection += `</div>`;
+
         return (
           topSection +
+          linksSection +
           fieldsSectionHeader +
           fieldsSection +
           fieldsSectionFooter +
