@@ -31,30 +31,7 @@ const TOKEN_TYPES = {
  */
 const SF_KEYWORDS = {
   // Logical functions
-  logical: [
-    "AND",
-    "OR",
-    "NOT",
-    "IF",
-    "CASE",
-    "SWITCH",
-    "ISNULL",
-    "ISBLANK",
-    "ISNUMBER",
-    "ISTEXT",
-    "ISCHANGED",
-    "PRIORVALUE",
-    "XOR",
-    "NAND",
-    "NOR",
-    "ISNULL",
-    "ISBLANK",
-    "ISNUMBER",
-    "ISTEXT",
-    "ISDATE",
-    "ISCHANGED",
-    "PRIORVALUE",
-  ],
+  logical: ["AND", "OR", "NOT", "IF", "CASE", "SWITCH", "XOR", "NAND", "NOR"],
 
   // Text functions
   text: [
@@ -175,6 +152,8 @@ const SF_KEYWORDS = {
     "ISDATE",
     "ISCHANGED",
     "PRIORVALUE",
+    "ISNEW",
+    "ISPICKVAL",
   ],
 
   // Advanced functions
