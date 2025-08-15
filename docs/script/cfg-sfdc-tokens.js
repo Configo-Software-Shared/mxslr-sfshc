@@ -188,6 +188,7 @@ const OPERATORS = [
   "<=",
   ">=",
   "<>",
+  "==",
   "&&",
   "||",
   "=",
@@ -218,6 +219,7 @@ function prettifySalesforceFormula(formula) {
     { pattern: /<=/g, replacement: "___LESS_EQUAL___" },
     { pattern: />=/g, replacement: "___GREATER_EQUAL___" },
     { pattern: /<>/g, replacement: "___NOT_EQUAL___" },
+    { pattern: /==/g, replacement: "___EQUAL_EQUAL___" },
     { pattern: /&&/g, replacement: "___AND___" },
     { pattern: /\|\|/g, replacement: "___OR___" },
   ];
@@ -249,12 +251,14 @@ function prettifySalesforceFormula(formula) {
     .replace(/___LESS_EQUAL___/g, " <= ")
     .replace(/___GREATER_EQUAL___/g, " >= ")
     .replace(/___NOT_EQUAL___/g, " <> ")
+    .replace(/___EQUAL_EQUAL___/g, " == ")
     .replace(/___AND___/g, " && ")
     .replace(/___OR___/g, " || ")
     // Fix any multi-character operators that got split during single-char processing
     .replace(/>[ \t]*=/g, " >= ")
     .replace(/<[ \t]*=/g, " <= ")
     .replace(/<[ \t]*>/g, " <> ")
+    .replace(/=[ \t]*=/g, " == ")
     .replace(/&[ \t]*&/g, " && ")
     .replace(/\|[ \t]*\|/g, " || ");
 
